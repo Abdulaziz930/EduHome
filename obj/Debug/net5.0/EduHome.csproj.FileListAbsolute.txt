@@ -155,3 +155,6 @@ C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHom
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Delete.cshtml.g.cs
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Update.cshtml.g.cs
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Detail.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\About\Index.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\About\Update.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\About\Detail.cshtml.g.cs

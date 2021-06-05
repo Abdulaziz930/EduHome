@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EduHome.DataAccessLayer;
 using EduHome.Models;
-using Fiorello.Areas.AdminPanel.Utils;
+using EduHome.Areas.AdminPanel.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduHome.Areas.AdminPanel.Controllers

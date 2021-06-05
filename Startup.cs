@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EduHome.DataAccessLayer;
-using Fiorello.Areas.AdminPanel.Utils;
+using EduHome.Areas.AdminPanel.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

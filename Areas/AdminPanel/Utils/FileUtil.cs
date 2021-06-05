@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Fiorello.Areas.AdminPanel.Utils
+namespace EduHome.Areas.AdminPanel.Utils
 {
     public static class FileUtil
     {

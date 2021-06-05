@@ -18,5 +18,7 @@ namespace EduHome.DataAccessLayer
         public DbSet<Contact> Contacts { get; set; }
 
         public DbSet<Slider> Sliders { get; set; }
+
+        public DbSet<About> About { get; set; }
     }
 }
