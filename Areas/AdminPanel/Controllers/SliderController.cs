@@ -7,6 +7,7 @@ using EduHome.DataAccessLayer;
 using EduHome.Models;
 using EduHome.Areas.AdminPanel.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduHome.Areas.AdminPanel.Controllers
 {
@@ -20,9 +21,9 @@ namespace EduHome.Areas.AdminPanel.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var sliders = _db.Sliders.ToList();
+            var sliders = await _db.Sliders.OrderByDescending(x => x.Id).ToListAsync();
 
             return View(sliders);
         }

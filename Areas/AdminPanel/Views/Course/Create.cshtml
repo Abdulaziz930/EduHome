@@ -1,0 +1,86 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New Course</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Title">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Category Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.AboutCourse">About Course</label>
+                    <textarea asp-for="CourseDetail.AboutCourse" class="form-control" rows="4" placeholder="About Course"></textarea>
+                    <span asp-validation-for="CourseDetail.AboutCourse" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Certification">Certification</label>
+                    <textarea asp-for="CourseDetail.Certification" class="form-control" rows="4" placeholder="Certification"></textarea>
+                    <span asp-validation-for="CourseDetail.Certification" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.HowToApply">How To Apply</label>
+                    <textarea asp-for="CourseDetail.HowToApply" class="form-control" rows="4" placeholder="How To Apply"></textarea>
+                    <span asp-validation-for="CourseDetail.HowToApply" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.LeaveReply">Leave Reply</label>
+                    <textarea asp-for="CourseDetail.LeaveReply" class="form-control" rows="4" placeholder="Leave Reply"></textarea>
+                    <span asp-validation-for="CourseDetail.LeaveReply" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Starts">Starts</label>
+                    <input asp-for="CourseDetail.Starts" class="form-control" placeholder="Starts">
+                    <span asp-validation-for="CourseDetail.Starts" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Duration">Duration</label>
+                    <input asp-for="CourseDetail.Duration" class="form-control" placeholder="Duration">
+                    <span asp-validation-for="CourseDetail.Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.ClassDuration">Class Duration</label>
+                    <input asp-for="CourseDetail.ClassDuration" class="form-control" placeholder="Class Duration">
+                    <span asp-validation-for="CourseDetail.ClassDuration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.SkillLevel">Skill Level</label>
+                    <input asp-for="CourseDetail.SkillLevel" class="form-control" placeholder="Skill Level">
+                    <span asp-validation-for="CourseDetail.SkillLevel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Language">Language</label>
+                    <input asp-for="CourseDetail.Language" class="form-control" placeholder="Language">
+                    <span asp-validation-for="CourseDetail.Language" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Assesments">Assesments</label>
+                    <input asp-for="CourseDetail.Assesments" class="form-control" placeholder="Assesments">
+                    <span asp-validation-for="CourseDetail.Assesments" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CourseDetail.Price">Price</label>
+                    <input asp-for="CourseDetail.Price" class="form-control" placeholder="Price">
+                    <span asp-validation-for="CourseDetail.Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Photo">Image</label>
+                    <input asp-for="Photo" class="form-control" accept="image/*" type="file">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Add</button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

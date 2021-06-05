@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Delete Course";
+    Course course = Model;
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Delete Slider Item</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="~/img/course/@course.Image" class="img-fluid" />
+                </div>
+                <div class="col-md-12">
+                    <div class="item d-flex mt-2">
+                        <h4>Title:</h4>
+                        <span class="ml-2">@course.Name</span>
+                    </div>
+                    <div class="item d-flex mt-2">
+                        <h4>Description:</h4>
+                        <span class="ml-2">@course.Description</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-danger mt-3">Do you want to delete?</p>
+            <hr />
+            <form method="post">
+                <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                <button type="submit" class="btn btn-danger ml-2">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+

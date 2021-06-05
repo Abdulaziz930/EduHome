@@ -20,5 +20,9 @@ namespace EduHome.DataAccessLayer
         public DbSet<Slider> Sliders { get; set; }
 
         public DbSet<About> About { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
+
+        public DbSet<CourseDetail> CourseDetails { get; set; }
     }
 }
