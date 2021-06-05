@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EduHome.DataAccessLayer;
+using Fiorello.Areas.AdminPanel.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,12 +17,14 @@ namespace EduHome
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment _environment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,6 +36,8 @@ namespace EduHome
             });
 
             services.AddControllersWithViews();
+
+            Constants.ImageFolderPath = Path.Combine(_environment.WebRootPath, "img");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

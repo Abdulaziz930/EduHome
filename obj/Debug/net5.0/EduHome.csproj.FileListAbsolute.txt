@@ -150,3 +150,8 @@ C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHom
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\_ViewStart.cshtml.g.cs
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Shared\_AdminLayout.cshtml.g.cs
 C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\_ViewImports.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Index.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Create.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Delete.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Update.cshtml.g.cs
+C:\Users\hp\Desktop\Proqramlaşdırma\CodeAcademy\BackEnd\ASP.NET\Project\EduHome\obj\Debug\net5.0\Razor\Areas\AdminPanel\Views\Slider\Detail.cshtml.g.cs

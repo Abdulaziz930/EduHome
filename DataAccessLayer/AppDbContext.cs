@@ -16,5 +16,7 @@ namespace EduHome.DataAccessLayer
         public DbSet<Bio> Bios { get; set; }
 
         public DbSet<Contact> Contacts { get; set; }
+
+        public DbSet<Slider> Sliders { get; set; }
     }
 }

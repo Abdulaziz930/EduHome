@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    List<Slider> sliders = Model;
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Categories</h4>
+                @if(sliders.Count < 5)
+                {
+                    <a asp-action="Create" class="btn btn-primary">Add +</a>
+                }
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var slider in sliders)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="~/img/slider/@slider.Image" class="img-fluid" />
+                                    </td>
+                                    <td>@slider.Title</td>
+                                    <td>
+                                        <a asp-action="Detail" asp-route-id="@slider.Id" class="btn btn-success">Detail</a>
+                                        <a asp-action="Update" asp-route-id="@slider.Id" class="btn btn-warning">Update</a>
+                                        @if(sliders.Count > 1)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@slider.Id" class="btn btn-danger">Delete</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
