@@ -21,10 +21,13 @@ namespace EduHome.Areas.AdminPanel.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            ViewBag.PageCount = Decimal.Ceiling(_db.Courses.Count() / 5);
+            ViewBag.Page = page;
+
             var courses = await _db.Courses.Where(x => x.IsDeleted == false)
-                .OrderByDescending(x => x.LastModificationDate).ToListAsync();
+                .OrderByDescending(x => x.LastModificationDate).Skip((page - 1) * 5).Take(5).ToListAsync();
 
             return View(courses);
         }
@@ -95,7 +98,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             var course = await _db.Courses.Include(x => x.CourseDetail)
                 .Where(x => x.CourseDetail.IsDeleted == false)
-                .FirstOrDefaultAsync(x => x.IsDeleted == false);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (course == null)
                 return NotFound();
 
@@ -114,7 +117,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             var dbCourse = await _db.Courses.Include(x => x.CourseDetail)
                 .Where(x => x.CourseDetail.IsDeleted == false)
-                .FirstOrDefaultAsync(x => x.IsDeleted == false);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (dbCourse == null)
                 return NotFound();
 
@@ -139,14 +142,14 @@ namespace EduHome.Areas.AdminPanel.Controllers
                     return View();
                 }
 
-                var path = Path.Combine(Constants.ImageFolderPath, "slider", dbCourse.Image);
+                var path = Path.Combine(Constants.ImageFolderPath, "course", dbCourse.Image);
 
                 if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path);
                 }
 
-                fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "slider", course.Photo);
+                fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "course", course.Photo);
             }
 
             var isExist = await _db.Courses.AnyAsync(x => x.Name == course.Name && x.Id != course.Id && x.IsDeleted == false);
