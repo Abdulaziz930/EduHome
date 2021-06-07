@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EduHome.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EduHome
 {
@@ -29,6 +31,18 @@ namespace EduHome
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.AllowedForNewUsers = true;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -59,6 +73,8 @@ namespace EduHome
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
