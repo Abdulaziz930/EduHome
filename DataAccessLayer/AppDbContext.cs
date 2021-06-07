@@ -25,8 +25,8 @@ namespace EduHome.DataAccessLayer
 
         public DbSet<CourseDetail> CourseDetails { get; set; }
 
-        public DbSet<Notice> Notices { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
 
-        public DbSet<NoticeVideo> NoticeVideo { get; set; }
+        public DbSet<BlogDetail> BlogDetails { get; set; }
     }
 }

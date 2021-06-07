@@ -1,40 +1,41 @@
 ﻿
 @{
-    ViewData["Title"] = "Courses";
-    List<Course> courses = Model;
+    ViewData["Title"] = "Index";
+    List<Blog> blogs = Model;
 }
 
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Courses</h4>
+                <h4 class="card-title">Blogs</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Title</th>
                                 <th>Creation Date</th>
                                 <th>Last Modification Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var course in courses)
+                            @foreach (var blog in blogs)
                             {
                                 <tr>
-                                    <td>@course.Name</td>
-                                    <td>@course.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td>@course.LastModificationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@blog.Title</td>
+                                    <td>@blog.CreationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@blog.LastModification.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                     <td>
-                                        <a asp-action="Detail" asp-route-id="@course.Id" class="btn btn-success">Detail</a>
-                                        <a asp-action="Update" asp-route-id="@course.Id" class="btn btn-warning">Update</a>
-                                        <a asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger">Delete</a>
+                                        <a asp-action="Detail" asp-route-id="@blog.Id" class="btn btn-success">Detail</a>
+                                        <a asp-action="Update" asp-route-id="@blog.Id" class="btn btn-warning">Update</a>
+                                        <a asp-action="Delete" asp-route-id="@blog.Id" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+
                 @if(ViewBag.PageCount != 0)
                 {
                     <div class="mt-3">

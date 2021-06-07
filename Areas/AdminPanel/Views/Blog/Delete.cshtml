@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewData["Title"] = "Delete Course";
-    Course course = Model;
+    ViewData["Title"] = "Delete Blog";
+    Blog blog = Model;
 }
 
 <div class="col-12 grid-margin stretch-card">
@@ -10,16 +10,16 @@
             <h4 class="card-title">Delete Blog</h4>
             <div class="row">
                 <div class="col-md-12">
-                    <img src="~/img/course/@course.Image" class="img-fluid" />
+                    <img src="~/img/blog/@blog.Image" class="img-fluid" />  
                 </div>
                 <div class="col-md-12">
                     <div class="item d-flex mt-2">
                         <h4>Title:</h4>
-                        <span class="ml-2">@course.Name</span>
+                        <span class="ml-2">@blog.Title</span>
                     </div>
                     <div class="item d-flex mt-2">
                         <h4>Description:</h4>
-                        <span class="ml-2">@course.Description</span>
+                        <span class="ml-2">@Html.Raw(@blog.BlogDetail.Description)</span>
                     </div>
                 </div>
             </div>
