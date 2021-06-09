@@ -28,6 +28,10 @@ namespace EduHome.Models
 
         public CourseDetail CourseDetail { get; set; }
 
+        public string UserId { get; set; }
+
+        public User User { get; set; }
+
         [NotMapped]
         public IFormFile Photo { get; set; }
     }

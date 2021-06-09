@@ -4,14 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EduHome.Areas.AdminPanel.Utils;
+using EduHome.Data;
 using EduHome.DataAccessLayer;
 using EduHome.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduHome.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
+    [Authorize(Roles = RoleConstants.AdminRole)]
     public class CourseController : Controller
     {
         private readonly AppDbContext _db;
@@ -33,7 +36,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
         }
 
         #region Create
-
         public IActionResult Create()
         {
             return View();
@@ -90,7 +92,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
         #endregion
 
         #region Update
-
         public async Task<IActionResult> Update(int? id)
         {
             if (id == null)
@@ -173,7 +174,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
         #endregion
 
         #region Delete
-
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

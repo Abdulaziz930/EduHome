@@ -8,10 +8,13 @@ using EduHome.Models;
 using EduHome.Areas.AdminPanel.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using EduHome.Data;
 
 namespace EduHome.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
+    [Authorize(Roles = RoleConstants.AdminRole)]
     public class SliderController : Controller
     {
         private readonly AppDbContext _db;

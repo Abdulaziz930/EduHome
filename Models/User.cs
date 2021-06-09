@@ -14,5 +14,7 @@ namespace EduHome.Models
 
         [Required]
         public bool IsActive { get; set; }
+
+        public List<Course> Courses { get; set; }
     }
 }
