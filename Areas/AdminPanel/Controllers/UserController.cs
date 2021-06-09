@@ -57,6 +57,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
             return View(users);
         }
 
+        #region Change Role
+
         public async Task<IActionResult> ChangeRole(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -81,7 +83,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeRole(string id,ChangeRoleViewModel changeRoleViewModel,int courseId,string role)
+        public async Task<IActionResult> ChangeRole(string id,ChangeRoleViewModel changeRoleViewModel,List<int> coursesId,string role)
         {
             if (string.IsNullOrEmpty(id))
                 return NotFound();
@@ -107,22 +109,27 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if(role.ToLower() == "CourseModerator".ToLower())
             {
-                if (courseId == 0)
+                foreach (var courseId in coursesId)
                 {
-                    ModelState.AddModelError("", "Please select category.");
-                    return View();
+                    if (courseId == 0)
+                    {
+                        ModelState.AddModelError("", "Please select category.");
+                        return View();
+                    }
+                    var dbCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.Id == courseId)
+                        .ToListAsync();
+                    if (dbCourses == null)
+                        return NotFound();
+
+                    List<Course> courseList = new List<Course>();
+
+                    foreach (var dbCourse in dbCourses)
+                    {
+                        dbCourse.UserId = user.Id;
+                        courseList.Add(dbCourse);
+                    }
+                    user.Courses = courseList;
                 }
-
-                var dbCourse = await _db.Courses.Where(x => x.IsDeleted == false)
-                    .FirstOrDefaultAsync(x => x.Id == courseId);
-                if (dbCourse == null)
-                    return NotFound();
-
-
-                dbCourse.UserId = user.Id;
-                List<Course> courseList = new List<Course>();
-                courseList.Add(dbCourse);
-                user.Courses = courseList;
             }
 
             string oldRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
@@ -144,11 +151,21 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
             }
 
+            if(newRole != RoleConstants.CourseModeratorRole)
+            {
+                foreach (var course in user.Courses)
+                {
+                    course.UserId = null;
+                }
+            }
+
             await _userManager.UpdateAsync(user);
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
+
+        #endregion
 
         public List<string> GetRoles()
         {

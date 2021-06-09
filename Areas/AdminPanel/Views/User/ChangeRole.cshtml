@@ -29,11 +29,14 @@
                 </div>
                 <div class="form-group d-none" id="courseInput">
                     <label>Courses</label>
-                    <select class="form-control" name="CourseId">
+                    <select class="form-control" name="CoursesId" multiple>
                         <option value="0">---Select Course---</option>
                         @foreach (Course item in ViewBag.Courses)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            @if(item.UserId == null)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
                         }
                     </select>
                 </div>

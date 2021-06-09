@@ -30,6 +30,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+                return NotFound();
 
             var myCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.UserId == user.Id)
                 .Include(x => x.CourseDetail).Include(x => x.User)
@@ -50,6 +52,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return NotFound();
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+                return NotFound();
 
             var myCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.UserId == user.Id)
                 .Include(x => x.CourseDetail).Include(x => x.User).FirstOrDefaultAsync();
@@ -70,6 +74,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return BadRequest();
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+                return NotFound();
 
             var myCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.UserId == user.Id)
                 .Include(x => x.CourseDetail).Include(x => x.User).FirstOrDefaultAsync();
@@ -135,6 +141,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return NotFound();
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+                return NotFound();
 
             var myCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.UserId == user.Id)
                 .Include(x => x.CourseDetail).Include(x => x.User).FirstOrDefaultAsync();
