@@ -4,14 +4,16 @@ using EduHome.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EduHome.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210609230521_AddEventSpeakerAndEventSpeakerTables")]
+    partial class AddEventSpeakerAndEventSpeakerTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -270,9 +272,6 @@ namespace EduHome.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("LastModificationDate")
                         .HasColumnType("datetime2");
 
@@ -303,9 +302,6 @@ namespace EduHome.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LeaveReply")
                         .HasColumnType("nvarchar(max)");
 
@@ -314,7 +310,7 @@ namespace EduHome.Migrations
                     b.HasIndex("EventId")
                         .IsUnique();
 
-                    b.ToTable("EventDetails");
+                    b.ToTable("EventDetail");
                 });
 
             modelBuilder.Entity("EduHome.Models.EventSpeaker", b =>
@@ -374,9 +370,6 @@ namespace EduHome.Migrations
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
