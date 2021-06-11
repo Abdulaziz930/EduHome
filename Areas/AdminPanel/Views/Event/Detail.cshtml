@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Course Detail";
+    Event eventItem = Model;
+    int count = 0;
+}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Course Detail</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="~/img/event/@eventItem.Image" class="img-fluid" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detailItem d-flex mt-2">
+                            <h4>Title:</h4>
+                            <span class="ml-2">@eventItem.Title</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Description:</h4>
+                            <span class="ml-2">@eventItem.EventDetail.Description</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Leave Reply:</h4>
+                            <span class="ml-2">@eventItem.EventDetail.LeaveReply</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Start Time:</h4>
+                            <span class="ml-2">@eventItem.StartTime</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>End Time:</h4>
+                            <span class="ml-2">@eventItem.EndTime</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Speakers:</h4>
+                            @if (eventItem.EventSpeakers.Count > 0)
+                            {
+                                @foreach (var eventSpeaker in eventItem.EventSpeakers)
+                                {
+                                    @if (eventSpeaker.EventId == eventItem.Id)
+                                    {
+                                        @if (count != 0)
+                                        {
+                                            <span class="ml-2">, @eventSpeaker.Speaker.FullName</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="ml-2">@eventSpeaker.Speaker.FullName</span>
+                                        }
+                                        count++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <span class="ml-2">This event has no speakers</span>
+                            }
+                        </div>                       
+                    </div>
+                </div>
+                <hr />
+                <a asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

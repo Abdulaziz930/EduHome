@@ -1,0 +1,55 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Update Event";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New Course</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Title">Title</label>
+                    <input asp-for="Title" class="form-control" placeholder="Title">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartTime">Start Time</label>
+                    <input asp-for="StartTime" class="form-control" rows="4" placeholder="StartTime" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndTime">End Time</label>
+                    <input asp-for="EndTime" class="form-control" rows="4" placeholder="End Time" />
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Venue">Venue</label>
+                    <input asp-for="Venue" class="form-control" rows="4" placeholder="Venue" />
+                    <span asp-validation-for="Venue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EventDetail.Description">Description</label>
+                    <textarea asp-for="EventDetail.Description" class="form-control" rows="4" placeholder="Description"></textarea>
+                    <span asp-validation-for="EventDetail.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EventDetail.LeaveReply">Leave Reply</label>
+                    <textarea asp-for="EventDetail.LeaveReply" class="form-control" rows="4" placeholder="Leave Reply"></textarea>
+                    <span asp-validation-for="EventDetail.LeaveReply" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Photo">Image</label>
+                    <input asp-for="Photo" class="form-control" accept="image/*" type="file">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-warning mr-2">Update</button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
