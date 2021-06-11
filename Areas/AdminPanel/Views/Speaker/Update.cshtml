@@ -1,13 +1,13 @@
 ﻿@model Speaker
 @{
-    ViewData["Title"] = "Create Speaker";
+    ViewData["Title"] = "Update Speaker";
+    bool isTrue = true;
 }
 
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Create New Course</h4>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h4 class="card-title">Update Speaker</h4>
             <form class="forms-sample" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label asp-for="FullName">Full Name</label>
@@ -29,11 +29,30 @@
                     <select class="form-control" name="EventId" id="event" multiple>
                         @foreach (Event item in ViewBag.Events)
                         {
-                            <option value="@item.Id">@item.Title</option>
+                            foreach (EventSpeaker eventSpeaker in Model.EventSpeakers)
+                            {
+                                if (eventSpeaker.EventId == item.Id)
+                                {
+                                    isTrue = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    isTrue = false;
+                                }
+                            }
+                            @if (isTrue)
+                            {
+                                <option selected value="@item.Id">@item.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
                         }
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2">Add</button>
+                <button type="submit" class="btn btn-warning mr-2">Update</button>
                 <a asp-action="Index" class="btn btn-light">Cancel</a>
             </form>
         </div>
@@ -43,3 +62,4 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
+

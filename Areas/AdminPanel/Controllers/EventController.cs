@@ -203,6 +203,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Detail
+
         public async Task<IActionResult> Detail(int? id)
         {
             if (id == null)
@@ -218,5 +220,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             return View(@event);
         }
+
+        #endregion
     }
 }

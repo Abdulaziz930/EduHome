@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Speaker Detail";
+    Speaker speaker = Model;
+    int count = 0;
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Speaker Detail</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="~/img/event/@speaker.Image" class="img-fluid" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detailItem d-flex mt-2">
+                            <h4>Full Name:</h4>
+                            <span class="ml-2">@speaker.FullName</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Events:</h4>
+                            @if (speaker.EventSpeakers.Count > 0)
+                            {
+                                @foreach (var eventSpeaker in speaker.EventSpeakers)
+                                {
+                                    
+                                    @if (count != 0 && eventSpeaker.Speaker.IsDeleted == false)
+                                    {
+                                        <span class="ml-2">, @eventSpeaker.Event.Title</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ml-2">@eventSpeaker.Event.Title</span>
+                                    }
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                                <span class="ml-2">This event has no events</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <a asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

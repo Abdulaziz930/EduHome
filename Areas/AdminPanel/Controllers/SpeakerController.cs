@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EduHome.Areas.AdminPanel.Utils;
@@ -102,6 +103,148 @@ namespace EduHome.Areas.AdminPanel.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Update
+
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var events = await _db.Events.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Events = events;
+
+            var speaker = await _db.Speakers.Include(x => x.EventSpeakers)
+                .ThenInclude(x => x.Event)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false); 
+            if (speaker == null)
+                return NotFound();
+
+            return View(speaker);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id,Speaker speaker, int[] eventId)
+        {
+            if (id == null)
+                return NotFound();
+
+            if (id != speaker.Id)
+                return BadRequest();
+
+            var events = await _db.Events.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Events = events;
+
+            var dbSpeaker = await _db.Speakers.Include(x => x.EventSpeakers)
+                .ThenInclude(x => x.Event)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (dbSpeaker == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var fileName = dbSpeaker.Image;
+
+            if (speaker.Photo != null)
+            {
+                if (!speaker.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "This is not a picture");
+                    return View();
+                }
+
+                if (!speaker.Photo.IsSizeAllowed(3000))
+                {
+                    ModelState.AddModelError("Photo", "The size of the image you uploaded is 3 MB higher.");
+                    return View();
+                }
+
+                var path = Path.Combine(Constants.ImageFolderPath, "event", dbSpeaker.Image);
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", speaker.Photo);
+            }
+            
+            var eventSpikers = new List<EventSpeaker>();
+            foreach (var item in eventId)
+            {
+                var eventSpeaker = new EventSpeaker();
+                eventSpeaker.EventId = item;
+                eventSpeaker.SpeakerId = speaker.Id;
+                eventSpikers.Add(eventSpeaker);
+            }
+            dbSpeaker.EventSpeakers = eventSpikers;
+            dbSpeaker.Image = fileName;
+            dbSpeaker.FullName = speaker.FullName;
+            dbSpeaker.Profession = speaker.Profession;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Delete
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var speaker = await _db.Speakers.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (speaker == null)
+                return NotFound();
+
+            return View(speaker);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteSpeaker(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var speaker = await _db.Speakers.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (speaker == null)
+                return NotFound();
+
+            speaker.IsDeleted = true;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Detail
+
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var speaker = await _db.Speakers.Include(x => x.EventSpeakers)
+                .ThenInclude(x => x.Event)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (speaker == null)
+                return NotFound();
+
+            return View(speaker);
         }
 
         #endregion

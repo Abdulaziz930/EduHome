@@ -37,5 +37,19 @@ namespace EduHome.DataAccessLayer
         public DbSet<Speaker> Speakers { get; set; }
 
         public DbSet<EventSpeaker> EventSpeakers { get; set; }
+
+        public DbSet<Teacher> Teachers { get; set; }
+
+        public DbSet<TeacherDetail> TeacherDetails { get; set; }
+
+        public DbSet<Profession> Professions { get; set; }
+
+        public DbSet<TeacherProfession> TeacherProfessions { get; set; }
+
+        public DbSet<Skill> Skills { get; set; }
+
+        public DbSet<TeacherContactInfo> TeacherContactInfos { get; set; }
+
+        public DbSet<SocialMedia> SocialMedias { get; set; }
     }
 }
