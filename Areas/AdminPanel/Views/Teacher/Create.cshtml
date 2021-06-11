@@ -1,0 +1,132 @@
+﻿@model Teacher
+@{
+    ViewData["Title"] = "Create New Teacher";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create New Course</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.Description">Description</label>
+                    <textarea asp-for="TeacherDetail.Description" class="form-control" rows="4" placeholder="Description"></textarea>
+                    <span asp-validation-for="TeacherDetail.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.Degree">Teacher Degree</label>
+                    <input asp-for="TeacherDetail.Degree" class="form-control" rows="4" placeholder="Teacher Degree">
+                    <span asp-validation-for="TeacherDetail.Degree" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.Experience">Experience</label>
+                    <input asp-for="TeacherDetail.Experience" class="form-control" rows="4" placeholder="Experience">
+                    <span asp-validation-for="TeacherDetail.Experience" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.Faculty">Faculty</label>
+                    <input asp-for="TeacherDetail.Faculty" class="form-control" rows="4" placeholder="Faculty">
+                    <span asp-validation-for="TeacherDetail.Faculty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.Hobbies">Hobbies</label>
+                    <input asp-for="TeacherDetail.Hobbies" class="form-control" rows="4" placeholder="Hobbies">
+                    <span asp-validation-for="TeacherDetail.Hobbies" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.TeacherContactInfo.PhoneNumber">Phone Number</label>
+                    <input asp-for="TeacherDetail.TeacherContactInfo.PhoneNumber" class="form-control" placeholder="Phone Number">
+                    <span asp-validation-for="TeacherDetail.TeacherContactInfo.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.TeacherContactInfo.Email">Email</label>
+                    <input asp-for="TeacherDetail.TeacherContactInfo.Email" class="form-control" placeholder="Email">
+                    <span asp-validation-for="TeacherDetail.TeacherContactInfo.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherDetail.TeacherContactInfo.Skype">Skype</label>
+                    <input asp-for="TeacherDetail.TeacherContactInfo.Skype" class="form-control" placeholder="Skype">
+                    <span asp-validation-for="TeacherDetail.TeacherContactInfo.Skype" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.LanguagePercent" type="range" class="form-control" placeholder="Language Percent">
+                    <span>Language Percant:</span><span id="languagePercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.LanguagePercent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.DesingPercent" type="range" class="form-control" placeholder="Desing Percent">
+                    <span>Desing Percant:</span><span id="desingPercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.DesingPercent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.DevelopmentPercent" type="range" class="form-control">
+                    <span>Development Percant:</span><span id="developmentPercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.DevelopmentPercent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.CommunicationPercent" type="range" class="form-control">
+                    <span>Communication Percant:</span><span id="communicationPercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.CommunicationPercent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.InnovationPercent" type="range" class="form-control">
+                    <span>Innovation Percant:</span><span id="innovationPercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.InnovationPercent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="TeacherDetail.Skill.TeamLeaderPercent" type="range" class="form-control">
+                    <span>Team Leader Percant:</span><span id="teamLeaderPercent"></span>
+                    <span asp-validation-for="TeacherDetail.Skill.TeamLeaderPercent" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="professionInput">
+                    <label>Professions</label>
+                    <select class="form-control" name="ProfessionId" id="profession" multiple>
+                        @foreach (Profession item in ViewBag.Professions)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Photo">Image</label>
+                    <input asp-for="Photo" class="form-control" accept="image/*" type="file">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Add</button>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function () {
+            let spanIds = ["languagePercent", "desingPercent", "developmentPercent"
+                , "communicationPercent", "innovationPercent", "teamLeaderPercent"];
+
+            let inputIds = ["TeacherDetail_Skill_LanguagePercent", "TeacherDetail_Skill_DesingPercent"
+                , "TeacherDetail_Skill_DevelopmentPercent", "TeacherDetail_Skill_CommunicationPercent"
+                , "TeacherDetail_Skill_InnovationPercent", "TeacherDetail_Skill_TeamLeaderPercent"];
+
+            spanIds.forEach(spanItem => {
+                inputIds.forEach(inputItem => {
+                    let resultArr = inputItem.split("_");
+                    if (resultArr[resultArr.length - 1].toLocaleLowerCase() == spanItem.toLocaleLowerCase()) {
+                        $("#" + spanItem).text($("#" + inputItem).val() + "%");
+                        $("#" + inputItem).change(function () {
+                            $("#" + spanItem).text($(this).val() + "%");
+                        });
+                    };
+                });
+            });
+        });
+    </script>    
+}

@@ -26,7 +26,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling(_db.Events.Count() / 5);
+            ViewBag.PageCount = Math.Ceiling((decimal)(_db.Events.Count() / 5));
             ViewBag.Page = page;
 
             var events = await _db.Events.Where(x => x.IsDeleted == false)
