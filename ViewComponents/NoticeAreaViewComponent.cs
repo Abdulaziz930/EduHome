@@ -18,7 +18,7 @@ namespace EduHome.ViewComponents
             _db = db;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int count = 9)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             var noticeBoards = await _db.NoticeBoards.Where(x => x.IsDeleted == false).ToListAsync();
             var videoTour = await _db.VideoTours.SingleOrDefaultAsync();

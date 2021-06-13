@@ -18,7 +18,7 @@ namespace EduHome.ViewComponents
             _db = db;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int count = 9)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             var testimonial = await _db.Testimonials.FirstOrDefaultAsync(x => x.IsDeleted == false);
 
