@@ -1,0 +1,44 @@
+﻿@model SocialMedia
+@{
+    ViewData["Title"] = "Update Social Media";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Update Social Media</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h4>Teacher: @Model.Teacher.Name</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Link">Link</label>
+                        <input asp-for="Link" class="form-control" placeholder="Link">
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Icon">Icon</label>
+                        <input asp-for="Icon" class="form-control" placeholder="Icon">
+                        <span asp-validation-for="Icon" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-warning mr-2">Update</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <h4>Icons</h4>
+                @foreach (var icon in ViewBag.Icons)
+                {
+                    <div>
+                        <span>@icon.Key -> @icon.Value</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
