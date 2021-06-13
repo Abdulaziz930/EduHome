@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using EduHome.DataAccessLayer;
 using EduHome.Models;
+using EduHome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EduHome.Controllers
@@ -19,9 +21,16 @@ namespace EduHome.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var sliders = await _db.Sliders.ToListAsync();
+
+            var homeViewModel = new HomeViewModel
+            {
+                Sliders = sliders
+            };
+
+            return View(homeViewModel);
         }
     }
 }

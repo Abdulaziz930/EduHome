@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace EduHome.ViewModels
 {
-    public class SocialMediaViewModel
+    public class HomeViewModel
     {
-        public List<Teacher> Teachers { get; set; }
-
-        public List<SocialMedia> SocialMedias { get; set; }
+        public List<Slider> Sliders { get; set; }
     }
 }
