@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+    NoticeAreaViewModel noticeAreaViewModel = Model;
+    int count = 0;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="notice-right-wrapper mb-25 pb-25">
+                <h3>TAKE A VIDEO TOUR</h3>
+                <div class="notice-video" style="background: rgba(0, 0, 0, 0) url(../img/notice/@noticeAreaViewModel.VideoTour.Image) repeat scroll 0 0; background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                    <div class="video-icon video-hover">
+                        <a class="video-popup" href="@noticeAreaViewModel.VideoTour.VideoLink">
+                            <i class="zmdi zmdi-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="notice-left-wrapper">
+                <h3>notice board</h3>             
+                <div class="notice-left">
+                    @foreach (var noticeBoard in noticeAreaViewModel.NoticeBoards)
+                    {
+                        @if (count == 0)
+                        {
+                            @Html.Raw("<div class='single-notice-left mb-23 pb-20'>")
+                        }
+                        else if (count == 1)
+                        {
+                            @Html.Raw("<div class='single-notice-left hidden-sm mb-23 pb-20'>")
+                        }
+                        else if (count == 2)
+                        {
+                            @Html.Raw("<div class='single-notice-left pb-70'>")
+                            count = 0;
+                        }
+                            <h4>@noticeBoard.StartDate.ToString("dd, MMMM yyyy")</h4>
+                            <p>@noticeBoard.Description</p>
+                        @Html.Raw("</div>")
+                        count++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -51,5 +51,9 @@ namespace EduHome.DataAccessLayer
         public DbSet<TeacherContactInfo> TeacherContactInfos { get; set; }
 
         public DbSet<SocialMedia> SocialMedias { get; set; }
+
+        public DbSet<VideoTour> VideoTours { get; set; }
+
+        public DbSet<NoticeBoard> NoticeBoards { get; set; }
     }
 }
