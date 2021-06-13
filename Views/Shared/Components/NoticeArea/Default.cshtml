@@ -5,6 +5,7 @@
     int count = 0;
 }
 
+<!-- Notice Start -->
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -21,7 +22,7 @@
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="notice-left-wrapper">
-                <h3>notice board</h3>             
+                <h3>notice board</h3>
                 <div class="notice-left">
                     @foreach (var noticeBoard in noticeAreaViewModel.NoticeBoards)
                     {
@@ -38,8 +39,8 @@
                             @Html.Raw("<div class='single-notice-left pb-70'>")
                             count = 0;
                         }
-                            <h4>@noticeBoard.StartDate.ToString("dd, MMMM yyyy")</h4>
-                            <p>@noticeBoard.Description</p>
+                        <h4>@noticeBoard.StartDate.ToString("dd, MMMM yyyy")</h4>
+                        <p>@noticeBoard.Description</p>
                         @Html.Raw("</div>")
                         count++;
                     }
@@ -48,3 +49,4 @@
         </div>
     </div>
 </div>
+<!-- Notice End -->

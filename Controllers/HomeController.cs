@@ -24,10 +24,13 @@ namespace EduHome.Controllers
         public async Task<IActionResult> Index()
         {
             var sliders = await _db.Sliders.ToListAsync();
+            var events = await _db.Events.Where(x => x.IsDeleted == false)
+                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync();
 
             var homeViewModel = new HomeViewModel
             {
-                Sliders = sliders
+                Sliders = sliders,
+                Events = events
             };
 
             return View(homeViewModel);

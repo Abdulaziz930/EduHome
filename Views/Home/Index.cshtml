@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home";
     HomeViewModel homeViewModel = Model;
+    int count = 0;
 }
 
 <!-- Background Area Start -->
@@ -50,11 +51,9 @@
     </div>
 </div>
 <!-- Courses Area End -->
-<!-- Notice Start -->
 <section class="notice-area two pt-140">
     @await Component.InvokeAsync("NoticeArea")
 </section>
-<!-- Notice End -->
 <!-- Event Area Start -->
 <div class="event-area two text-center pt-100 pb-145">
     <div class="container">
@@ -67,74 +66,42 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="single-event mb-35">
-                    <div class="event-img">
-                        <a href="event-details.html"><img src="~/img/event/event1.jpg" alt="event"></a>
-                    </div>
-                    <div class="event-content text-left">
-                        <h3>20 June 2017</h3>
-                        <h4><a href="event-details.html">ADVANCE PHP WORKSHOP</a></h4>
-                        <ul>
-                            <li><i class="fa fa-clock-o"></i>9.00 AM - 4.45 PM</li>
-                            <li><i class="fa fa-map-marker"></i>New Yourk City</li>
-                        </ul>
-                        <div class="event-content-right">
-                            <a class="default-btn" href="event-details.html">join now</a>
-                        </div>
+            @foreach (var eventItem in homeViewModel.Events)
+            {
+                @if (count == 0)
+                {
+                    @Html.Raw("<div class='col-md-6 col-sm-12 col-xs-12'>")
+                    @Html.Raw("<div class='single-event mb-35'>")
+                }
+                else if (count % 2 != 0 && count != 0)
+                {
+                    @Html.Raw("</div>")
+                    @Html.Raw("<div class='single-event hidden-sm hidden-xs'>")
+                }
+                else if (count % 2 == 0)
+                {
+                    @Html.Raw("</div>")
+                    @Html.Raw("</div>")
+                    @Html.Raw("<div class='col-md-6 col-sm-12 col-xs-12'>")
+                    @Html.Raw("<div class='single-event mb-35'>")
+                }
+                <div class="event-img">
+                    <a href="event-details.html"><img src="~/img/event/@eventItem.Image" alt="event"></a>
+                </div>
+                <div class="event-content text-left">
+                    <h3>@eventItem.StartTime.ToString("dd MMMM yyyy")</h3>
+                    <h4><a href="event-details.html">@eventItem.Title</a></h4>
+                    <ul>
+                        <li><i class="fa fa-clock-o"></i>@eventItem.StartTime.ToString("h.mm tt") - @eventItem.EndTime.ToString("h.mm tt")</li>
+                        <li><i class="fa fa-map-marker"></i>@eventItem.Venue</li>
+                    </ul>
+                    <div class="event-content-right">
+                        <a class="default-btn" href="event-details.html">join now</a>
                     </div>
                 </div>
-                <div class="single-event hidden-sm hidden-xs">
-                    <div class="event-img">
-                        <a href="event-details.html"><img src="~/img/event/event3.jpg" alt="event"></a>
-                    </div>
-                    <div class="event-content text-left">
-                        <h3>16 June 2017</h3>
-                        <h4><a href="event-details.html">learning english history</a></h4>
-                        <ul>
-                            <li><i class="fa fa-clock-o"></i>9.00 AM - 4.45 PM</li>
-                            <li><i class="fa fa-map-marker"></i>New Yourk City</li>
-                        </ul>
-                        <div class="event-content-right">
-                            <a class="default-btn" href="event-details.html">join now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="single-event mb-35">
-                    <div class="event-img">
-                        <a href="event-details.html"><img src="~/img/event/event2.jpg" alt="event"></a>
-                    </div>
-                    <div class="event-content text-left">
-                        <h3>18 June 2017</h3>
-                        <h4><a href="event-details.html">DIGITAL MARKETING ANALYSIS</a></h4>
-                        <ul>
-                            <li><i class="fa fa-clock-o"></i>9.00 AM - 4.45 PM</li>
-                            <li><i class="fa fa-map-marker"></i>New Yourk City</li>
-                        </ul>
-                        <div class="event-content-right">
-                            <a class="default-btn" href="event-details.html">join now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-event hidden-sm hidden-xs">
-                    <div class="event-img">
-                        <a href="event-details.html"><img src="~/img/event/event3.jpg" alt="event"></a>
-                    </div>
-                    <div class="event-content text-left">
-                        <h3>14 June 2017</h3>
-                        <h4><a href="event-details.html">UI & UX DESIGNER MEETUP</a></h4>
-                        <ul>
-                            <li><i class="fa fa-clock-o"></i>9.00 AM - 4.45 PM</li>
-                            <li><i class="fa fa-map-marker"></i>New Yourk City</li>
-                        </ul>
-                        <div class="event-content-right">
-                            <a class="default-btn" href="event-details.html">join now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                count++;
+            }
+            @Html.Raw("</div>")
         </div>
     </div>
 </div>
