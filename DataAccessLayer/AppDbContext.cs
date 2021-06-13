@@ -55,5 +55,7 @@ namespace EduHome.DataAccessLayer
         public DbSet<VideoTour> VideoTours { get; set; }
 
         public DbSet<NoticeBoard> NoticeBoards { get; set; }
+
+        public DbSet<Testimonial> Testimonials { get; set; }
     }
 }

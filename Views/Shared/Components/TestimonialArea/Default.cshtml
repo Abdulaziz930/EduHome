@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+    Testimonial testimonial = Model;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="testimonial-owl owl-theme owl-carousel">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <div class="single-testimonial">
+                    <div class="testimonial-info">
+                        <div class="testimonial-img">
+                            <img src="~/img/testimonial/@testimonial.Image" alt="testimonial">
+                        </div>
+                        <div class="testimonial-content">
+                            <p>@testimonial.Description</p>
+                            <h4>@testimonial.Name</h4>
+                            <h5>@testimonial.Position</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
