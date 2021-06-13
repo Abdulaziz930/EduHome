@@ -32,27 +32,9 @@
         }
     </div>
 </section>
-<!-- About Start -->
-<div class="about-area pb-155 mt-30">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div class="about-content">
-                    <h2>WELCOME TO <span>EDUHOME</span></h2>
-                    <p>I must explain to you how all this mistaken idea of denouncing pleure and prsing pain was born and I will give you a complete account of the system, and expound the actual teachings  the master-builder of humanit happiness</p>
-                    <p class="hidden-sm">I must explain to you how all this mistaken idea of denouncing pleure and prsing pain was born and I will give you a complete account of the system</p>
-                    <a class="default-btn" href="about.html">view courses</a>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="about-img">
-                    <img src="~/img/about/about.png" alt="about">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- About End -->
+
+@await Component.InvokeAsync("About")
+
 <!-- Courses Area Start -->
 <div class="courses-area two pt-150 pb-150 text-center">
     <div class="container">
@@ -353,6 +335,6 @@
 </div>
 <!-- Blog Area End -->
 
-@section Subscribe{ 
+@section Subscribe{
     <partial name="_SubscribePartial" />
 }
