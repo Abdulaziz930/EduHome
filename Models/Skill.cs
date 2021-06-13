@@ -22,6 +22,8 @@ namespace EduHome.Models
 
         public int CommunicationPercent { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [ForeignKey("TeacherDetail")]
         public int TeacherDetailId { get; set; }
 

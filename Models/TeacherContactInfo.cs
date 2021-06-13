@@ -16,6 +16,8 @@ namespace EduHome.Models
 
         public string Skype { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [ForeignKey("TeacherDetail")]
         public int TeacherDetailId { get; set; }
 

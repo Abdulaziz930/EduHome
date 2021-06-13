@@ -20,6 +20,8 @@ namespace EduHome.Models
 
         public string Faculty { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [ForeignKey("Teacher")]
         public int TeacherId { get; set; }
 

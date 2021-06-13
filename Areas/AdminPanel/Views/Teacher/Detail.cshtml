@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewData["Title"] = "Detail";
+    Teacher teacher = Model;
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Event Detail</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="~/img/teacher/@teacher.Image" class="img-fluid" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="detailItem d-flex mt-2">
+                            <h4>Name:</h4>
+                            <span class="ml-2">@teacher.Name</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Description:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Description</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Degree:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Degree</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Experience:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Experience</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Faculty:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Faculty</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Hobbies:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Hobbies</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Phone Number:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.TeacherContactInfo.PhoneNumber</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Email:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.TeacherContactInfo.Email</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Skype:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.TeacherContactInfo.Skype</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Language Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.LanguagePercent %</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Innovation Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.InnovationPercent %</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Team Leader Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.TeamLeaderPercent %</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Development Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.DevelopmentPercent %</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Desing Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.DesingPercent %</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Communication Percent:</h4>
+                            <span class="ml-2">@teacher.TeacherDetail.Skill.CommunicationPercent %</span>
+                        </div>
+                        <div class="detailItem mt-3">
+                            <h4>Professions:</h4>
+                            <ul>
+                                @foreach (var profession in teacher.TeacherProfessions)
+                                {
+                                    <li>@profession.Profession.Name</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <a asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
