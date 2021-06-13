@@ -243,6 +243,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Detail
+
         public async Task<IActionResult> Detail(int? id)
         {
             if (id == null)
@@ -251,11 +253,14 @@ namespace EduHome.Areas.AdminPanel.Controllers
             var teacher = await _db.Teachers.Include(x => x.TeacherDetail)
                 .ThenInclude(x => x.Skill).Include(x => x.TeacherDetail)
                 .ThenInclude(x => x.TeacherContactInfo).Include(x => x.SocialMedias)
-                .Include(x => x.TeacherProfessions).ThenInclude(x => x.Profession).FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+                .Include(x => x.TeacherProfessions).ThenInclude(x => x.Profession)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (teacher == null)
                 return NotFound();
 
             return View(teacher);
         }
+
+        #endregion
     }
 }

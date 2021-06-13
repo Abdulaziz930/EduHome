@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Profession Detail";
+    Profession profession = Model;
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Profession Detail</h3>
+                <div class="detailItem d-flex mt-3">
+                    <h4>Profession Name:</h4>
+                    <span class="ml-2">@profession.Name</span>
+                </div>
+                <hr />
+                <a asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

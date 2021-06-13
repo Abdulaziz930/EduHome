@@ -53,5 +53,98 @@ namespace EduHome.Areas.AdminPanel.Controllers
         }
 
         #endregion
+
+        #region Update
+
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var profession = await _db.Professions.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (profession == null)
+                return NotFound();
+
+            return View(profession);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id,Profession profession)
+        {
+            if (id == null)
+                return NotFound();
+
+            if (id != profession.Id)
+                return BadRequest();
+
+            var dbProfession = await _db.Professions.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (dbProfession == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            dbProfession.Name = profession.Name;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Delete
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var profession = await _db.Professions.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (profession == null)
+                return NotFound();
+
+            return View(profession);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteProfession(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var profession = await _db.Professions.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (profession == null)
+                return NotFound();
+
+            profession.IsDeleted = true;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Detail
+
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var profession = await _db.Professions.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (profession == null)
+                return NotFound();
+
+            return View(profession);
+        }
+
+        #endregion
     }
 }
