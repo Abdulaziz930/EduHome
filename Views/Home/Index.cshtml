@@ -89,17 +89,17 @@
                     @Html.Raw("<div class='single-event mb-35'>")
                 }
                 <div class="event-img">
-                    <a href="event-details.html"><img src="~/img/event/@eventItem.Image" alt="event"></a>
+                    <a asp-action="EventDetail" asp-route-id="@eventItem.Id"><img src="~/img/event/@eventItem.Image" alt="event"></a>
                 </div>
                 <div class="event-content text-left">
                     <h3>@eventItem.StartTime.ToString("dd MMMM yyyy")</h3>
-                    <h4><a href="event-details.html">@eventItem.Title</a></h4>
+                    <h4><a asp-action="EventDetail" asp-route-id="@eventItem.Id">@eventItem.Title</a></h4>
                     <ul>
                         <li><i class="fa fa-clock-o"></i>@eventItem.StartTime.ToString("h.mm tt") - @eventItem.EndTime.ToString("h.mm tt")</li>
                         <li><i class="fa fa-map-marker"></i>@eventItem.Venue</li>
                     </ul>
                     <div class="event-content-right">
-                        <a class="default-btn" href="event-details.html">join now</a>
+                        <a class="default-btn" asp-action="EventDetail" asp-route-id="@eventItem.Id">join now</a>
                     </div>
                 </div>
                 count++;
