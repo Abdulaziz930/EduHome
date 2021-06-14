@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Course", 3)
+        @await Component.InvokeAsync("Course", new EduHome.ViewComponents.InvokeRequest() { Count = 3, SkipCount = 1 })
     </div>
 </div>
 <!-- Courses Area End -->
