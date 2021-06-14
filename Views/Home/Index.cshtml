@@ -34,8 +34,11 @@
     </div>
 </section>
 
-@await Component.InvokeAsync("About")
-
+<!-- About Start -->
+<div class="about-area pb-155 mt-30">
+    @await Component.InvokeAsync("About")
+</div>
+<!-- About End -->
 <!-- Courses Area Start -->
 <div class="courses-area two pt-150 pb-150 text-center">
     <div class="container">
@@ -47,7 +50,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Course",3)
+        @await Component.InvokeAsync("Course", 3)
     </div>
 </div>
 <!-- Courses Area End -->
@@ -122,7 +125,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Blog",3)
+        @await Component.InvokeAsync("Blog", 3)
     </div>
 </div>
 <!-- Blog Area End -->

@@ -71,7 +71,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 {
                     foreach (var item in teacher.SocialMedias)
                     {
-                        if(item.Link == socialMedia.Link && item.Icon == socialMedia.Icon)
+                        if(item.IsDeleted == false && item.Link == socialMedia.Link && item.Icon == socialMedia.Icon)
                         {
                             ModelState.AddModelError("", "is exists");
                             return View();

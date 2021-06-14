@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "About";
+}
+
+<!-- Banner Area Start -->
+<div class="banner-area-wrapper">
+    <div class="banner-area text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="banner-content-wrapper">
+                        <div class="banner-content">
+                            <h2>about us</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Area End -->
+<!-- About Start -->
+<div class="about-area pt-145 pb-155">
+    @await Component.InvokeAsync("About")
+</div>
+<!-- About End -->
+<!-- Teacher Start -->
+<div class="teacher-area pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="section-title text-center">
+                    <img src="img/icon/section.png" alt="title">
+                    <h2>meet our teachers</h2>
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("Teacher", 4)
+    </div>
+</div>
+<!-- Teacher End -->
+<!-- Testimonial Area Start -->
+<div class="testimonial-area pt-110 pb-105 text-center">
+    @await Component.InvokeAsync("TestimonialArea")
+</div>
+<!-- Testimonial Area End -->
+<!-- Notice Start -->
+<section class="notice-area two pt-140 pb-100">
+    @await Component.InvokeAsync("NoticeArea")
+</section>
+<!-- Notice End -->
