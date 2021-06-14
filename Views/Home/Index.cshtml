@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Course", new InvokeRequest() { Count = 3, SkipCount = 1 })
+        @await Component.InvokeAsync("Course", new InvokeRequest() { Count = 3 })
     </div>
 </div>
 <!-- Courses Area End -->
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Blog", 3)
+        @await Component.InvokeAsync("Blog", new InvokeRequest() { Count = 3 })
     </div>
 </div>
 <!-- Blog Area End -->

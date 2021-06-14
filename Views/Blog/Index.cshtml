@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Blogs";
+}
+
+@await Component.InvokeAsync("Banner","blog")
+<!-- Blog Start -->
+<div class="blog-area pt-150 pb-150">
+    <div class="container">
+        @await Component.InvokeAsync("Blog", new InvokeRequest() { Count = 9, SkipCount = ViewBag.Page })
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pagination">
+                    <ul>
+                        @for (int i = 1; i <= ViewBag.PageCount; i++)
+                        {
+                            if (ViewBag.Page == i)
+                            {
+                                <li><a disabled asp-action="Index" asp-route-page="@i">@i</a></li>
+                            }
+                            else
+                            {
+                                <li><a asp-action="Index" asp-route-page="@i">@i</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog End -->
