@@ -207,6 +207,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             course.IsDeleted = true;
             course.CourseDetail.IsDeleted = true;
+            course.UserId = null;
 
             await _db.SaveChangesAsync();
 

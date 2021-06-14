@@ -30,7 +30,6 @@
                 <div class="form-group d-none" id="courseInput">
                     <label>Courses</label>
                     <select class="form-control" name="CoursesId" multiple>
-                        <option value="0">---Select Course---</option>
                         @foreach (Course item in ViewBag.Courses)
                         {
                             @if(item.UserId == null)
@@ -52,6 +51,12 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+        var selectedRole = $("#Role").children("option:selected").val();
+        if (selectedRole == "CourseModerator") {
+            $("#courseInput").removeClass("d-none");
+        } else {
+            $("#courseInput").addClass("d-none");
+        }
         $("#Role").change(function () {
             var selectedRole = $(this).children("option:selected").val();
             if (selectedRole == "CourseModerator") {

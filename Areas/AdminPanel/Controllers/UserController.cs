@@ -113,15 +113,21 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View(dbChangeRoleViewModel);
             }
 
-            if(role.ToLower() == "CourseModerator".ToLower())
+            if(role.ToLower() == RoleConstants.CourseModeratorRole.ToLower())
             {
+                if(coursesId.Count == 0)
+                {
+                    ModelState.AddModelError("", "Please select category.");
+                    return View(dbChangeRoleViewModel);
+                }
                 foreach (var courseId in coursesId)
                 {
-                    if (courseId == 0)
-                    {
-                        ModelState.AddModelError("", "Please select category.");
-                        return View();
-                    }
+                    //if (courseId == null)
+                    //{
+                    //    ModelState.AddModelError("", "Please select category.");
+                    //    return View();
+                    //}
+
                     var dbCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.Id == courseId)
                         .ToListAsync();
                     if (dbCourses == null)
@@ -129,12 +135,23 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
                     List<Course> courseList = new List<Course>();
 
+
                     foreach (var dbCourse in dbCourses)
                     {
                         dbCourse.UserId = user.Id;
-                        courseList.Add(dbCourse);
+                        if(user.Courses != null)
+                        {
+                            user.Courses.Add(dbCourse);
+                        }
+                        else
+                        {
+                            courseList.Add(dbCourse);
+                        }
                     }
-                    user.Courses = courseList;
+                    if(user.Courses == null)
+                    {
+                        user.Courses = courseList;
+                    }
                 }
             }
 
