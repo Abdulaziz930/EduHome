@@ -1,4 +1,5 @@
-﻿using EduHome.DataAccessLayer;
+﻿using EduHome.Data;
+using EduHome.DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,17 +20,11 @@ namespace EduHome.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(InvokeRequest invokeRequest)
         {
-            
-
             var courses = await _db.Courses.Where(x => x.IsDeleted == false)
-                .OrderByDescending(x => x.LastModificationDate).Skip((invokeRequest.SkipCount - 1) * invokeRequest.Count).Take(invokeRequest.Count).ToListAsync();
+                .OrderByDescending(x => x.LastModificationDate).Skip((invokeRequest.SkipCount - 1) * invokeRequest.Count)
+                .Take(invokeRequest.Count).ToListAsync();
 
             return View(courses);
         }
-    }
-    public class InvokeRequest
-    {
-        public int Count { get; set; } = 9;
-        public int SkipCount { get; set; } = 0;
     }
 }

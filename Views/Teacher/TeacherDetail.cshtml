@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewData["Title"] = "TeacherDetail";
+    Teacher teacher = Model;
+}
+
+<!-- Teacher Start -->
+<div class="teacher-details-area pt-150 pb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-12">
+                <div class="teacher-details-img">
+                    <img src="~/img/teacher/@teacher.Image" alt="teacher">
+                </div>
+            </div>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                <div class="teacher-details-content ml-50">
+                    <h2>@teacher.Name</h2>
+                    <ul>
+                        @foreach (var teacherProfession in teacher.TeacherProfessions)
+                        {
+                            @if(teacherProfession.Profession.IsDeleted == false)
+                            {
+                                <li>
+                                    <h5>@teacherProfession.Profession.Name</h5>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <h4>about me</h4>
+                    <p>@teacher.TeacherDetail.Description</p>
+                    <ul>
+                        <li><span>degree: </span>@teacher.TeacherDetail.Degree</li>
+                        <li><span>experience: </span>@teacher.TeacherDetail.Experience</li>
+                        <li><span>hobbies: </span>@teacher.TeacherDetail.Hobbies</li>
+                        <li><span>faculty: </span>@teacher.TeacherDetail.Faculty</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-4">
+                <div class="teacher-contact">
+                    <h4>contact information</h4>
+                    @if(teacher.TeacherDetail.TeacherContactInfo.IsDeleted == false)
+                    {
+                        <p><span>mail me : </span>@teacher.TeacherDetail.TeacherContactInfo.Email</p>
+                        <p><span>make a call : </span>@teacher.TeacherDetail.TeacherContactInfo.PhoneNumber</p>
+                        <p><span>skype : </span>@teacher.TeacherDetail.TeacherContactInfo.Skype</p>
+                    }
+                <ul>
+                    @foreach (var socialMedia in teacher.SocialMedias)
+                    {
+                        @if (socialMedia.IsDeleted == false)
+                        {
+                            <li><a href="@socialMedia.Link"><i class="@socialMedia.Icon"></i></a></li>
+                        }
+                    }
+                </ul>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <div class="skill-area">
+                    <h4>skills</h4>
+                </div>
+                <div class="skill-wrapper">
+                    <div class="row">
+                        @if(teacher.TeacherDetail.Skill.IsDeleted == false)
+                        {
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>language</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.LanguagePercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.LanguagePercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>team leader</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.TeamLeaderPercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.TeamLeaderPercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>development</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.DevelopmentPercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.DevelopmentPercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>design</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.DesingPercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.DesingPercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>innovation</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.InnovationPercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.InnovationPercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="skill-bar-item">
+                                    <span>communication</span>
+                                    <div class="progress">
+                                        <div data-wow-delay="1.2s" data-wow-duration="1.5s" style="width: @teacher.TeacherDetail.Skill.CommunicationPercent%; visibility: visible; animation-duration: 1.5s; animation-delay: 1.2s; animation-name: fadeInLeft;" data-progress="50%" class="progress-bar wow fadeInLeft">
+                                            <span class="text-top">@teacher.TeacherDetail.Skill.CommunicationPercent%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Teacher End -->

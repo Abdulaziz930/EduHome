@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("Teacher", 4)
+        @await Component.InvokeAsync("Teacher", new InvokeRequest() { Count = 4})
     </div>
 </div>
 <!-- Teacher End -->

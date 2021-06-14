@@ -1,4 +1,5 @@
-﻿using EduHome.DataAccessLayer;
+﻿using EduHome.Data;
+using EduHome.DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +18,12 @@ namespace EduHome.ViewComponents
             _db = db;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int count = 9)
+        public async Task<IViewComponentResult> InvokeAsync(InvokeRequest invokeRequest)
         {
             var teachers = await _db.Teachers.Where(x => x.IsDeleted == false)
                 .Include(x => x.TeacherProfessions).ThenInclude(x => x.Profession)
-                .Include(x => x.SocialMedias).Take(count).ToListAsync();
+                .Include(x => x.SocialMedias).Skip((invokeRequest.SkipCount - 1) * invokeRequest.Count)
+                .Take(invokeRequest.Count).ToListAsync();
 
             return View(teachers);
         }
