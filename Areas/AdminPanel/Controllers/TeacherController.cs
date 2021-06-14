@@ -23,8 +23,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            ViewBag.PageCount = Math.Ceiling((decimal)(_db.Teachers.Count() / 5));
+            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Teachers.Where(x => x.IsDeleted == false).Count() / 5);
             ViewBag.Page = page;
+
+            if (ViewBag.PageCount < page || page <= 0)
+                return NotFound();
 
             var teachers = await _db.Teachers.Where(x => x.IsDeleted == false)
                 .OrderByDescending(x => x.Id).Skip((page - 1) * 5).Take(5).ToListAsync();

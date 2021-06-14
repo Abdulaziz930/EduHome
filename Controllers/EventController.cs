@@ -19,8 +19,11 @@ namespace EduHome.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling(_db.Courses.Count() / 9);
+            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
             ViewBag.Page = page;
+
+            if (ViewBag.PageCount < page || page <= 0)
+                return NotFound();
 
             var events = await _db.Events.Where(x => x.IsDeleted == false)
                 .OrderByDescending(x => x.LastModificationDate).Skip((page - 1) * 9).Take(9).ToListAsync();

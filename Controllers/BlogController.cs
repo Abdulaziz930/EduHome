@@ -19,8 +19,11 @@ namespace EduHome.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Blogs.Count() / 9);
+            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Blogs.Where(x => x.IsDeleted == false).Count() / 9);
             ViewBag.Page = page;
+
+            if (ViewBag.PageCount < page || page <= 0)
+                return NotFound();
 
             return View();
         }

@@ -38,8 +38,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 .OrderByDescending(x => x.LastModificationDate)
                 .Skip((page - 1) * 5).Take(5).ToListAsync();
 
-            ViewBag.PageCount = Decimal.Ceiling(myCourses.Count / 5);
+            ViewBag.PageCount = Decimal.Ceiling((decimal)myCourses.Count / 5);
             ViewBag.Page = page;
+
+            if (ViewBag.PageCount < page || page <= 0)
+                return NotFound();
 
             return View(myCourses);
         }

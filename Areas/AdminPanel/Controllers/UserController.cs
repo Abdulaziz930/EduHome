@@ -28,8 +28,14 @@ namespace EduHome.Areas.AdminPanel.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Users.Count() / 5);
+            ViewBag.Page = page;
+
+            if (ViewBag.PageCount < page || page <= 0)
+                return NotFound();
+
             var dbUsers = new List<User>();
 
             if (User.Identity.IsAuthenticated)
