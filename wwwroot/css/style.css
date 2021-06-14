@@ -163,12 +163,6 @@ textarea {
     -webkit-transition: all 0.5s ease-out 0s;
     transition: all 0.5s ease-out 0s;
 }
-.banner-area {
-  background: rgba(0, 0, 0, 0) url("../img/banner/banner.jpg") no-repeat scroll center center / cover ;
-  position: relative;
-  width: 100%;
-  z-index: 1;
-}
 .banner-content {
     padding: 132px 0 134px;
 }
