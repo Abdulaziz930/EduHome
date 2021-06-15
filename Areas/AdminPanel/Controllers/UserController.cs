@@ -221,6 +221,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Detail
+
         public async Task<IActionResult> Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -247,6 +249,73 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             return View(userViewModel);
         }
+
+        #endregion
+
+        #region ChangePassword
+
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+                return NotFound();
+
+            var changePasswordViewModel = new ChangePasswordViewModel
+            {
+                Username = user.UserName
+            };
+
+            return View(changePasswordViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(string id, ChangePasswordViewModel passwordViewModel)
+        {
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var dbUser = await _userManager.FindByIdAsync(id);
+
+            if (id == null)
+                return NotFound();
+
+            var changePasswordViewModel = new ChangePasswordViewModel
+            {
+                Username = dbUser.UserName
+            };
+
+            if (!await _userManager.CheckPasswordAsync(dbUser, passwordViewModel.OldPassword))
+            {
+                ModelState.AddModelError("OldPassword", "Old password is not valid.");
+                return View(changePasswordViewModel);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(dbUser, passwordViewModel.OldPassword, passwordViewModel.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(changePasswordViewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
 
         public List<string> GetRoles()
         {
