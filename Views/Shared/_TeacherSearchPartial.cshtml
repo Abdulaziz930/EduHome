@@ -1,10 +1,9 @@
-﻿
-@{
-    Layout = null;
+﻿@{
     List<Teacher> teachers = Model;
 }
 
-<div class="row" id="teacher-list">
+@if (teachers != null || teachers.Count != 0)
+{
     @foreach (var teacher in teachers)
     {
         <div class="col-md-3 col-sm-4 col-xs-12" id="teacher-card">
@@ -18,9 +17,10 @@
                     <ul>
                         @foreach (var socialMedia in teacher.SocialMedias)
                         {
-                            if(socialMedia.IsDeleted == false)
+                            if (socialMedia.IsDeleted == false)
                             {
-                                <li><a href="@socialMedia.Link"><i class="@socialMedia.Icon"></i></a></li>  
+                                <li><a href="@socialMedia.Link"><i class="@socialMedia.Icon"></i></a></li>
+
                             }
                         }
                     </ul>
@@ -28,4 +28,4 @@
             </div>
         </div>
     }
-</div>
+}

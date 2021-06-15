@@ -1,14 +1,27 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Teachers";
 }
 
 @await Component.InvokeAsync("Banner", "our teachers")
 <div class="teacher-area pt-150 pb-105">
     <div class="container">
-        @await Component.InvokeAsync("Teacher", new InvokeRequest() { Count = 12, SkipCount = ViewBag.Page })
         <div class="row">
             <div class="col-xs-12">
+                <div class="course-title" style="text-align:left;">
+                    <h3>search teachers</h3>
+                </div>
+                <div class="course-form">
+                    <form id="search" action="#">
+                        <input type="search" id="teacher-search-input" placeholder="Search..." name="search" />
+                    </form>
+                </div>
+                <div id="teacher-result"></div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("Teacher", new InvokeRequest() { Count = 12, SkipCount = ViewBag.Page })
+        <div class="row" id="teacherPaginationBox">
+            <div class="col-xs-12" id="teacherPaginationId">
                 <div class="pagination">
                     <ul>
                         @for (int i = 1; i <= ViewBag.PageCount; i++)

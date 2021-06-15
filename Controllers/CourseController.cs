@@ -54,7 +54,7 @@ namespace EduHome.Controllers
             }
 
             var courses = await _db.Courses.Where(x => x.IsDeleted == false && x.Name.Contains(search.ToLower()))
-                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync();
+                .OrderByDescending(x => x.LastModificationDate).ToListAsync();
 
             return PartialView("_CourseSearchPartial", courses);
         }

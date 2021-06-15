@@ -59,7 +59,7 @@ namespace EduHome.Controllers
             }
 
             var events = await _db.Events.Where(x => x.IsDeleted == false && x.Title.Contains(search.ToLower()))
-                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync();
+                .OrderByDescending(x => x.LastModificationDate).ToListAsync();
 
             return PartialView("_EventSearchPartial", events);
         }

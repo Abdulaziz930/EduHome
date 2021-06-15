@@ -60,7 +60,7 @@
 
         $("#event-list #event-card").remove();
         $("#eventPaginationId").remove();
-        console.log("1");
+
         if (eventSearch.length == 0) {
             $("#event-list").append(allEvents);
             $("#eventPaginationBox").append(eventPagination);
@@ -77,5 +77,34 @@
     })
 
     //-- event search end --//
+
+    //-- teacher search start --//
+
+    let teacherSearch;
+    let allTeachers = $("#teacher-list").html();
+    let teacherPagination = $("#teacherPaginationBox").html();
+
+    $("#teacher-search-input").keyup(function () {
+        teacherSearch = $(this).val().trim();
+
+        $("#teacher-list #teacher-card").remove();
+        $("#teacherPaginationId").remove();
+
+        if (teacherSearch.length == 0) {
+            $("#teacher-list").append(allTeachers);
+            $("#teacherPaginationBox").append(teacherPagination);
+            return;
+        }
+
+        $.ajax({
+            url: `Teacher/Search?search=${teacherSearch}`,
+            type: 'GET',
+            success: function (res) {
+                $("#teacher-list").append(res);
+            }
+        })
+    })
+
+    //-- teacher search end --//
 
 })
