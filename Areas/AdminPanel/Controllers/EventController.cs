@@ -70,8 +70,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
             var fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", @event.Photo);
             @event.Image = fileName;
 
-            //eyni adda iki event olar?
-
             if (!ModelState.IsValid)
             {
                 return View();
@@ -82,6 +80,14 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             await _db.AddRangeAsync(@event, @event.EventDetail);
             await _db.SaveChangesAsync();
+
+            var link = Url.Action("EventDetail", "Event", new { Area = "default" , @event.Id }, protocol: HttpContext.Request.Scheme);
+            var message = $"<a href={link}>Click to see the new event</a>";
+            var subscribes = await _db.Subscribes.ToListAsync();
+            foreach (var sub in subscribes)
+            {
+                await EmailUtil.SendEmailAsync(sub.Email, message, $"A new event named {@event.Title} has been created");
+            }
 
             return RedirectToAction("Index");
         }

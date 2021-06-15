@@ -184,6 +184,43 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Activity
+
+        public async Task<IActionResult> Activity(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            var user = await _userManager.FindByIdAsync(id);
+            var courses = await _db.Courses.Where(x => x.IsDeleted == false).ToListAsync();
+
+            if (user == null)
+                return NotFound();
+
+            if (user.IsActive)
+            {
+                user.IsActive = false;
+                if((await _userManager.GetRolesAsync(user)).FirstOrDefault() == RoleConstants.CourseModeratorRole)
+                {
+                    foreach (var course in courses)
+                    {
+                        if(course.UserId == user.Id)
+                        {
+                            course.UserId = null;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                user.IsActive = true;
+            }
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
         public List<string> GetRoles()
         {
             List<string> roles = new List<string>();

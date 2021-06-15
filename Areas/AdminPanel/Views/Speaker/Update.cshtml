@@ -1,7 +1,6 @@
 ﻿@model Speaker
 @{
     ViewData["Title"] = "Update Speaker";
-    bool isTrue = true;
 }
 
 <div class="col-12 grid-margin stretch-card">
@@ -29,27 +28,18 @@
                     <select class="form-control" name="EventId" id="event" multiple>
                         @foreach (Event item in ViewBag.Events)
                         {
-                            foreach (EventSpeaker eventSpeaker in Model.EventSpeakers)
-                            {
-                                if (eventSpeaker.EventId == item.Id)
-                                {
-                                    isTrue = true;
-                                    break;
-                                }
-                                else
-                                {
-                                    isTrue = false;
-                                }
-                            }
-                            @if (isTrue)
+                            if (Model.EventSpeakers.Any(x => x.EventId == item.Id))
                             {
                                 <option selected value="@item.Id">@item.Title</option>
+
                             }
                             else
                             {
                                 <option value="@item.Id">@item.Title</option>
                             }
+
                         }
+
                     </select>
                 </div>
                 <button type="submit" class="btn btn-warning mr-2">Update</button>

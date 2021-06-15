@@ -24,7 +24,7 @@ namespace EduHome.Areas.AdminPanel.Utils
                 {
                     smtp.Host = "smtp.gmail.com";
                     smtp.EnableSsl = true;
-                    smtp.UseDefaultCredentials = true;
+                    smtp.UseDefaultCredentials = false;
                     NetworkCredential network = new NetworkCredential(Constants.EmailAdress, Constants.EmailPassword);
                     smtp.Credentials = network;
                     smtp.Port = 587;

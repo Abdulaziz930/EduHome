@@ -28,6 +28,14 @@
                                     <td>
                                         <a asp-action="Detail" asp-route-id="@user.Id" class="btn btn-success">Detail</a>
                                         <a asp-action="ChangeRole" asp-route-id="@user.Id" class="btn btn-warning">Change Role</a>
+                                        @if (user.IsActive)
+                                        {
+                                            <a asp-action="Activity" asp-route-id="@user.Id" class="btn btn-danger">Deactivate</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="Activity" asp-route-id="@user.Id" class="btn btn-success">Activate</a>
+                                        }
                                     </td>
                                 </tr>
                             }

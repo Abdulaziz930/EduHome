@@ -12,6 +12,10 @@
     display: inherit;
 }
 
+#global-result-list li h4 {
+    border-bottom: 1px solid #000;
+}
+
 #course-result-list {
     z-index: 2;
     background-color: #fff;

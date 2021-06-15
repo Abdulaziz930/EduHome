@@ -135,4 +135,38 @@
     })
     //-- blog search end --//
 
+    //-- subscribe start --//
+
+    let subscribeInput;
+
+    $("#Subscribe-Button").click(function () {
+
+        $("#response-subscribe").empty();
+
+        if (isAuthenticated == false) {
+            subscribeInput = $("#Email-Subscribe").val().trim();
+            if (subscribeInput.length == 0)
+                return;
+
+            $.ajax({
+                url: `Home/Subscribe?email=${subscribeInput}`,
+                type: 'GET',
+                success: function (res) {
+                    $("#response-subscribe").append(res);
+                }
+            })
+        } else {
+            $.ajax({
+                url: "Home/Subscribe?email=",
+                type: 'GET',
+                success: function (res) {
+                    $("#response-subscribe").append(res);
+                }
+            })
+        }
+
+    })
+
+    //-- subscribe end --//
+
 })
