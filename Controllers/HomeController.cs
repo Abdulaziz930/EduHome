@@ -35,5 +35,26 @@ namespace EduHome.Controllers
 
             return View(homeViewModel);
         }
+
+        public async Task<IActionResult> Search(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return NotFound();
+            }
+
+            var searchViewModel = new SearchViewModel
+            {
+                Blogs = await _db.Blogs.Where(x => x.IsDeleted == false && x.Title.Contains(search.ToLower()))
+                                .OrderByDescending(x => x.LastModification).Take(4).ToListAsync(),
+                Courses = await _db.Courses.Where(x => x.IsDeleted == false && x.Name.Contains(search.ToLower()))
+                                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync(),
+                Events = await _db.Events.Where(x => x.IsDeleted == false && x.Title.Contains(search.ToLower()))
+                                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync(),
+                Teachers = await _db.Teachers.Where(x => x.IsDeleted == false && x.Name.Contains(search.ToLower())).Take(4).ToListAsync()
+            };
+
+            return PartialView("_GlobalSearchPartial", searchViewModel);
+        }
     }
 }

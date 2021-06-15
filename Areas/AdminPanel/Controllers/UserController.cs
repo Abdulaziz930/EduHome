@@ -122,12 +122,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
                 foreach (var courseId in coursesId)
                 {
-                    //if (courseId == null)
-                    //{
-                    //    ModelState.AddModelError("", "Please select category.");
-                    //    return View();
-                    //}
-
                     var dbCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.Id == courseId)
                         .ToListAsync();
                     if (dbCourses == null)

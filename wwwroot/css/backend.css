@@ -1,0 +1,13 @@
+﻿#global-result {
+    overflow-y: scroll;
+    max-height:200px;
+}
+#global-result-list {
+    z-index: 2;
+    background-color: #fff;
+}
+#global-result-list li a,h4{
+    color: #000;
+    text-align:center;
+    display: inherit;
+}
