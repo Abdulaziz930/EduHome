@@ -107,4 +107,32 @@
 
     //-- teacher search end --//
 
+    //-- blog search start --//
+
+    let blogSearch;
+    let allBlogs = $("#blog-list").html();
+    let blogPagination = $("#blogPaginationBox").html();
+
+    $("#blog-search-input").keyup(function () {
+        blogSearch = $(this).val().trim();
+
+        $("#blog-list #blog-card").remove();
+        $("#blogPaginationId").remove();
+
+        if (blogSearch.length == 0) {
+            $("#blog-list").append(allBlogs);
+            $("#blogPaginationBox").append(blogPagination);
+            return;
+        }
+
+        $.ajax({
+            url: `Blog/Search?search=${blogSearch}`,
+            type: 'GET',
+            success: function (res) {
+                $("#blog-list").append(res);
+            }
+        })
+    })
+    //-- blog search end --//
+
 })

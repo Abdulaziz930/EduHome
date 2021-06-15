@@ -7,9 +7,22 @@
 <!-- Blog Start -->
 <div class="blog-area pt-150 pb-150">
     <div class="container">
-        @await Component.InvokeAsync("Blog", new InvokeRequest() { Count = 9, SkipCount = ViewBag.Page })
         <div class="row">
             <div class="col-xs-12">
+                <div class="course-title" style="text-align:left;">
+                    <h3>search blogs</h3>
+                </div>
+                <div class="course-form">
+                    <form id="search" action="#">
+                        <input type="search" id="blog-search-input" placeholder="Search..." name="search" />
+                    </form>
+                </div>
+                <div id="blog-result"></div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("Blog", new InvokeRequest() { Count = 9, SkipCount = ViewBag.Page })
+        <div class="row" id="blogPaginationBox">
+            <div class="col-xs-12" id="blogPaginationId">
                 <div class="pagination">
                     <ul>
                         @for (int i = 1; i <= ViewBag.PageCount; i++)

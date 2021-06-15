@@ -28,6 +28,8 @@ namespace EduHome.Controllers
             return View();
         }
 
+        #region BlogDetail
+
         public async Task<IActionResult> BlogDetail(int? id)
         {
             if (id == null)
@@ -40,5 +42,24 @@ namespace EduHome.Controllers
 
             return View(blog);
         }
+
+        #endregion
+
+        #region BlogSearch
+
+        public async Task<IActionResult> Search(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return NotFound();
+            }
+
+            var blogs = await _db.Blogs.Where(x => x.IsDeleted == false && x.Title.Contains(search.ToLower()))
+                .OrderByDescending(x => x.LastModification).ToListAsync();
+
+            return PartialView("_BlogSearchPartial", blogs);
+        }
+
+        #endregion
     }
 }
