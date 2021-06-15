@@ -221,6 +221,33 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        public async Task<IActionResult> Detail(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var dbUser = await _userManager.FindByIdAsync(id);
+            if (dbUser == null)
+                return NotFound();
+
+            var courses = await _db.Courses.Where(x => x.IsDeleted == false && x.UserId == id).ToListAsync();
+
+            var userViewModel = new UserViewModel
+            {
+                Id = dbUser.Id,
+                Fullname = dbUser.FullName,
+                UserName = dbUser.UserName,
+                Email = dbUser.Email,
+                Role = (await _userManager.GetRolesAsync(dbUser)).FirstOrDefault(),
+                IsActive = dbUser.IsActive,
+                Courses = courses
+            };
+
+            return View(userViewModel);
+        }
+
         public List<string> GetRoles()
         {
             List<string> roles = new List<string>();

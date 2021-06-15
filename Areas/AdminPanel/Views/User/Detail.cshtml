@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "User Detail";
+    UserViewModel user = Model;
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">User Detail</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="detailItem d-flex mt-2">
+                            <h4>Full Name:</h4>
+                            <span class="ml-2">@user.Fullname</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>UserName:</h4>
+                            <span class="ml-2">@user.UserName</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Email:</h4>
+                            <span class="ml-2">@user.Email</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>IsActive:</h4>
+                            <span class="ml-2">@user.IsActive</span>
+                        </div>
+                        <div class="detailItem d-flex mt-3">
+                            <h4>Role:</h4>
+                            <span class="ml-2">@user.Role</span>
+                        </div>
+                        @if(user.Role == RoleConstants.CourseModeratorRole)
+                        {
+                            <div class="detailItem d-flex mt-3">
+                                <h4>Courses:</h4>
+                                <ul>
+                                    @foreach (var course in user.Courses)
+                                    {
+                                        <li>@course.Name</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+                <a asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

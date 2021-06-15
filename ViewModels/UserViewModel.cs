@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EduHome.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,5 +25,7 @@ namespace EduHome.ViewModels
 
         [Required]
         public bool IsActive { get; set; }
+
+        public List<Course> Courses { get; set; }
     }
 }
