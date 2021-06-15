@@ -9,9 +9,22 @@
 <div class="event-area three text-center pt-150 pb-150">
     <div class="container">
         <div class="row">
+            <div class="col-xs-12">
+                <div class="course-title" style="text-align:left;">
+                    <h3>search events</h3>
+                </div>
+                <div class="course-form">
+                    <form id="search" action="#">
+                        <input type="search" id="event-search-input" placeholder="Search..." name="search" />
+                    </form>
+                </div>
+                <div id="event-result"></div>
+            </div>
+        </div>
+        <div class="row" id="event-list">
             @foreach (var eventItem in events)
             {
-                <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="col-md-4 col-sm-6 col-xs-12" id="event-card">
                     <div class="single-event mb-60">
                         <div class="event-img">
                             <a asp-action="EventDetail" asp-route-id="@eventItem.Id">
@@ -38,8 +51,8 @@
                 </div>
             }
         </div>
-        <div class="row">
-            <div class="col-xs-12">
+        <div class="row" id="eventPaginationBox">
+            <div class="col-xs-12" id="eventPaginationId">
                 <div class="pagination">
                     <ul>
                         @for (int i = 1; i <= ViewBag.PageCount; i++)

@@ -31,6 +31,8 @@ namespace EduHome.Controllers
             return View(events);
         }
 
+        #region EventDetail
+
         public async Task<IActionResult> EventDetail(int? id)
         {
             if (id == null)
@@ -44,5 +46,24 @@ namespace EduHome.Controllers
 
             return View(@event);
         }
+
+        #endregion
+
+        #region EventSearch
+
+        public async Task<IActionResult> Search(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return NotFound();
+            }
+
+            var events = await _db.Events.Where(x => x.IsDeleted == false && x.Title.Contains(search.ToLower()))
+                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync();
+
+            return PartialView("_EventSearchPartial", events);
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,36 @@
+﻿@{
+    List<Event> events = Model;
+}
+
+@if (events != null || events.Count != 0)
+{
+    @foreach (var eventItem in events)
+    {
+        <div class="col-md-4 col-sm-6 col-xs-12" id="event-card">
+            <div class="single-event mb-60">
+                <div class="event-img">
+                    <a asp-action="EventDetail" asp-route-id="@eventItem.Id">
+                        <img src="img/event/@eventItem.Image" alt="event">
+                        <div class="course-hover">
+                            <i class="fa fa-link"></i>
+                        </div>
+                    </a>
+                    <div class="event-date">
+                        <h3>@eventItem.StartTime.ToString("dd") <span>@eventItem.StartTime.ToString("MMM")</span></h3>
+                    </div>
+                </div>
+                <div class="event-content text-left">
+                    <h4><a asp-action="EventDetail" asp-route-id="@eventItem.Id">@eventItem.Title</a></h4>
+                    <ul>
+                        <li><span>time:</span> @eventItem.StartTime.ToString("h.mm tt") - @eventItem.EndTime.ToString("h.mm tt")</li>
+                        <li><span>venue</span> @eventItem.Venue</li>
+                    </ul>
+                    <div class="event-content-right">
+                        <a class="default-btn" asp-action="EventDetail" asp-route-id="@eventItem.Id">join now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+

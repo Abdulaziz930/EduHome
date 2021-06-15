@@ -28,6 +28,8 @@ namespace EduHome.Controllers
             return View();
         }
 
+        #region CourseDetail
+
         public async Task<IActionResult> CourseDetail(int? id)
         {
             if (id == null)
@@ -39,5 +41,24 @@ namespace EduHome.Controllers
 
             return View(course);
         }
+
+        #endregion
+
+        #region CourseSearch
+
+        public async Task<IActionResult> Search(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return NotFound();
+            }
+
+            var courses = await _db.Courses.Where(x => x.IsDeleted == false && x.Name.Contains(search.ToLower()))
+                .OrderByDescending(x => x.LastModificationDate).Take(4).ToListAsync();
+
+            return PartialView("_CourseSearchPartial", courses);
+        }
+
+        #endregion
     }
 }

@@ -36,6 +36,8 @@ namespace EduHome.Controllers
             return View(homeViewModel);
         }
 
+        #region GlobalSearch
+
         public async Task<IActionResult> Search(string search)
         {
             if (string.IsNullOrEmpty(search))
@@ -56,5 +58,7 @@ namespace EduHome.Controllers
 
             return PartialView("_GlobalSearchPartial", searchViewModel);
         }
+
+        #endregion
     }
 }

@@ -11,3 +11,8 @@
     text-align:center;
     display: inherit;
 }
+
+#course-result-list {
+    z-index: 2;
+    background-color: #fff;
+}
