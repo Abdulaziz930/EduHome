@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using EduHome.Areas.AdminPanel.Utils;
 using EduHome.Data;
 using EduHome.DataAccessLayer;
 using EduHome.Models;
@@ -316,6 +318,113 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Settings
+
+        [Authorize(Roles = RoleConstants.AdminRole + "," + RoleConstants.CourseModeratorRole)]
+        public async Task<IActionResult> Settings()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+                return NotFound();
+
+            var userViewModel = new UserViewModel
+            {
+                Id = user.Id,
+                Fullname = user.FullName,
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault(),
+                Image = user.Image
+            };
+
+            return View(userViewModel);
+        }
+
+        #endregion
+
+        #region Update
+
+        [Authorize(Roles = RoleConstants.AdminRole + "," + RoleConstants.CourseModeratorRole)]
+        public async Task<IActionResult> Update(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (id == null)
+                return NotFound();
+
+            var userViewModel = new UserViewModel
+            {
+                Id = user.Id,
+                Fullname = user.FullName,
+                UserName = user.UserName,
+                Email = user.Email,
+                Image = user.Image,
+                Photo = user.Photo
+            };
+
+            return View(userViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleConstants.AdminRole + "," + RoleConstants.CourseModeratorRole)]
+        public async Task<IActionResult> Update(string id,UserViewModel userViewModel)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                return View(userViewModel);
+            }
+
+            var fileName = user.Image;
+
+            if (userViewModel.Photo != null)
+            {
+                if (!userViewModel.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "This is not a picture");
+                    return View();
+                }
+
+                if (!userViewModel.Photo.IsSizeAllowed(3000))
+                {
+                    ModelState.AddModelError("Photo", "The size of the image you uploaded is 3 MB higher.");
+                    return View();
+                }
+
+                var path = Path.Combine(Constants.ImageFolderPath, "user", user.Image);
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "user", userViewModel.Photo);
+            }
+
+            user.Image = fileName;
+            user.FullName = userViewModel.Fullname;
+            user.UserName = userViewModel.UserName;
+            user.Email = userViewModel.Email;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Settings");
+        }
+
+        #endregion
 
         public List<string> GetRoles()
         {

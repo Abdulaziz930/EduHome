@@ -32,6 +32,8 @@ namespace EduHome.Models
 
         public User User { get; set; }
 
+        public ICollection<CategoryCourse> CategoryCourses { get; set; }
+
         [NotMapped]
         public IFormFile Photo { get; set; }
     }

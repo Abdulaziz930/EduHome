@@ -1,4 +1,5 @@
 ﻿using EduHome.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,11 +21,14 @@ namespace EduHome.ViewModels
         [Required, EmailAddress, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
         public string Role { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
+
+        public string Image { get; set; }
+
+        public IFormFile Photo { get; set; }
 
         public List<Course> Courses { get; set; }
     }

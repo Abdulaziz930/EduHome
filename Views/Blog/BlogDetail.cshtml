@@ -16,7 +16,7 @@
                     </div>
                     <div class="blog-details-content">
                         <h2>@blog.Title</h2>
-                        <h6>By Alex  /  @blog.CreationDate.ToString("MMMM dd, yyyy")  /  <i class="fa fa-comments-o"></i> 4</h6>
+                        <h6>By @blog.Author  /  @blog.CreationDate.ToString("MMMM dd, yyyy")  /  <i class="fa fa-comments-o"></i> @blog.CommentCount</h6>
                         @Html.Raw(blog.BlogDetail.Description)
                     </div>
                     <div class="reply-area">

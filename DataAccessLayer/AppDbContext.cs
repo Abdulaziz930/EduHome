@@ -61,5 +61,13 @@ namespace EduHome.DataAccessLayer
         public DbSet<Banner> Banners { get; set; }
 
         public DbSet<Subscribe> Subscribes { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<CategoryBlog> CategoryBlogs { get; set; }
+
+        public DbSet<CategoryCourse> CategoryCourses { get; set; }
+
+        public DbSet<CategoryEvent> CategoryEvents { get; set; }
     }
 }

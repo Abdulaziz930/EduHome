@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Settings";
+    UserViewModel userViewModel = Model;
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Settings</h3>
+                <div class="detailItem d-flex mt-3">
+                    <img src="~/img/user/@userViewModel.Image" />
+                </div>
+                <div class="detailItem d-flex mt-3">
+                    <h4>Full Name: </h4>
+                    <span class="ml-2">@userViewModel.Fullname</span>
+                </div>
+                <div class="detailItem d-flex mt-3">
+                    <h4>UserName:</h4>
+                    <span class="ml-2">@userViewModel.UserName</span>
+                </div>
+                <div class="detailItem d-flex mt-3">
+                    <h4>Email:</h4>
+                    <span class="ml-2">@userViewModel.Email</span>
+                </div>
+                <div class="detailItem d-flex mt-3">
+                    <h4>Role:</h4>
+                    <span class="ml-2">@userViewModel.Role</span>
+                </div>
+                @if (userViewModel.Role == RoleConstants.CourseModeratorRole)
+                {
+                    <div class="detailItem d-flex mt-3">
+                        <h4>Courses:</h4>
+                        <ul>
+                            @foreach (var course in userViewModel.Courses)
+                            {
+                                <li>@course.Name</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                <hr />
+                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-info text-light my-button">
+                    <i class="mdi mdi-keyboard-backspace"></i> <span>Back</span>
+                </a>
+                <a asp-action="Update" asp-route-id="@userViewModel.Id" class="btn btn-warning text-light my-button">Change Settings</a>
+                <a asp-action="ChangePassword" asp-route-id="@userViewModel.Id" class="btn btn-primary text-light my-button">Change Password</a>
+            </div>
+        </div>
+    </div>
+</div>
+

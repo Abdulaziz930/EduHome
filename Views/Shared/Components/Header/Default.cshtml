@@ -17,6 +17,10 @@
                         <ul>
                             @if (User.Identity.IsAuthenticated)
                             {
+                                @if (User.IsInRole(RoleConstants.AdminRole))
+                                {
+                                    <li><a asp-controller="AdminPanel" asp-action="Dashboard">Admin Panel</a></li>
+                                }
                                 <li><a asp-controller="Account" asp-action="Logout">@User.Identity.Name - logout</a></li>
                             }
                             else

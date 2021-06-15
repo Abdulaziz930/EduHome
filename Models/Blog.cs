@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,15 @@ namespace EduHome.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Title { get; set; }
 
         public string Image { get; set; }
+
+        [Required]
+        public string Author { get; set; }
+
+        public int CommentCount { get; set; }
 
         public DateTime CreationDate { get; set; }
 
@@ -23,6 +30,7 @@ namespace EduHome.Models
 
         public BlogDetail BlogDetail { get; set; }
 
+        public ICollection<CategoryBlog> CategoryBlogs { get; set; }
 
         [NotMapped]
         public IFormFile Photo { get; set; }

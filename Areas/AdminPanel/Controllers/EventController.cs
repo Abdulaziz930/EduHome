@@ -75,6 +75,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            if(@event.StartTime > @event.EndTime)
+            {
+                ModelState.AddModelError("StartTime", "Start date cannot be later than end date");
+                return View();
+            }
+
             @event.CreationDate = DateTime.Now;
             @event.LastModificationDate = DateTime.Now;
 
@@ -128,7 +134,13 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(@event);
+            }
+
+            if (@event.StartTime > @event.EndTime)
+            {
+                ModelState.AddModelError("StartTime", "Start date cannot be later than end date");
+                return View(@event);
             }
 
             var fileName = dbEvent.Image;

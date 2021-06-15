@@ -1,4 +1,6 @@
 ﻿using EduHome.DataAccessLayer;
+using EduHome.Models;
+using EduHome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,7 +41,30 @@ namespace EduHome.Controllers
             if (course == null)
                 return NotFound();
 
-            return View(course);
+            var courses = await _db.Courses.Where(x => x.IsDeleted == false).ToListAsync();
+            var courseCategory = await _db.CategoryCourses.Include(x => x.Category).ToListAsync();
+            var categories = new List<Category>();
+            foreach (var dbCourse in courses)
+            {
+                foreach (var item in courseCategory)
+                {
+                    if(dbCourse.Id == item.CourseId)
+                    {
+                        //if (categories.Contains(item.Category))
+                        //{
+                        //}
+                        categories.Add(item.Category);
+                    }
+                }
+            }
+
+            var courseViewModel = new CourseViewModel
+            {
+                Course = course,
+                Categories = categories
+            };
+
+            return View(courseViewModel);
         }
 
         #endregion

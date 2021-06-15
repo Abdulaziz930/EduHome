@@ -1,0 +1,41 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Update Profile";
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Profile</h4>
+            <form class="forms-sample" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Fullname">Fullname</label>
+                    <input asp-for="Fullname" class="form-control" placeholder="Fullname">
+                    <span asp-validation-for="Fullname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName">UserName</label>
+                    <input asp-for="UserName" class="form-control" rows="4" placeholder="UserName">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" rows="4" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Photo">Image</label>
+                    <input asp-for="Photo" class="form-control" accept="image/*" type="file">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-warning mr-2">Update</button>
+                <a asp-controller="User" asp-action="Settings" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
