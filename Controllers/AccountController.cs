@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EduHome.Areas.AdminPanel.Utils;
 using EduHome.Data;
 using EduHome.Models;
 using EduHome.ViewModels;
@@ -122,5 +123,88 @@ namespace EduHome.Controllers
         }
 
         #endregion
+
+        #region ResetPassword
+
+        public IActionResult RedirectionToResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RedirectionToResetPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return NotFound();
+
+            var dbUser = await _userManager.FindByEmailAsync(email);
+
+            if (dbUser == null)
+                return NotFound();
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(dbUser);
+
+            var link = Url.Action("ResetPassword", "Account", new { dbUser.Id, token }, protocol: HttpContext.Request.Scheme);
+            var message = $"<a href={link}>For Reset password click here</a>";
+            await EmailUtil.SendEmailAsync(dbUser.Email, message, "ResetPassword");
+
+            return RedirectToAction("Login");
+        }
+
+        public async Task<IActionResult> ResetPassword(string id, string token)
+        {
+
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            if (string.IsNullOrEmpty(token))
+                return BadRequest();
+
+            var dbUser = await _userManager.FindByIdAsync(id);
+
+            if (dbUser == null)
+                return NotFound();
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(string id, string token, ResetPasswordViewModel passwordViewModel)
+        {
+
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            if (string.IsNullOrEmpty(token))
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+            {
+                return View(passwordViewModel);
+            }
+
+            var dbUser = await _userManager.FindByIdAsync(id);
+
+            if (id == null)
+                return NotFound();
+
+            var result = await _userManager.ResetPasswordAsync(dbUser, token, passwordViewModel.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(passwordViewModel);
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        #endregion
+
     }
 }
