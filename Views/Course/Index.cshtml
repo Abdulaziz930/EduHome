@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Course>
 @{
     ViewData["Title"] = "Courses";
 }
@@ -20,26 +20,54 @@
                 <div id="course-result"></div>
             </div>
         </div>
-        @await Component.InvokeAsync("Course",new InvokeRequest() { Count = 9, SkipCount = ViewBag.Page })
-        <div class="row" id="paginationBox">
-            <div class="col-xs-12" id="paginationId">
-                <div class="pagination">
-                    <ul>
-                        @for (int i = 1; i <= ViewBag.PageCount; i++)
-                        {
-                            if (ViewBag.Page == i)
+        @if (Model.Count() == 0)
+        {
+            @await Component.InvokeAsync("Course", new InvokeRequest() { Count = 9, SkipCount = ViewBag.Page })
+            <div class="row" id="paginationBox">
+                <div class="col-xs-12" id="paginationId">
+                    <div class="pagination">
+                        <ul>
+                            @for (int i = 1; i <= ViewBag.PageCount; i++)
                             {
-                                <li><a disabled asp-action="Index" asp-route-page="@i">@i</a></li>
+                                if (ViewBag.Page == i)
+                                {
+                                    <li><a disabled asp-action="Index" asp-route-page="@i">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-action="Index" asp-route-page="@i">@i</a></li>
+                                }
                             }
-                            else
-                            {
-                                <li><a asp-action="Index" asp-route-page="@i">@i</a></li>
-                            }
-                        }
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="row" id="course-list">
+                @foreach (var course in Model)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12" id="course-card">
+                        <div class="single-course">
+                            <div class="course-img">
+                                <a asp-controller="Course" asp-action="CourseDetail" asp-route-id="@course.Id">
+                                    <img src="~/img/course/@course.Image" alt="course">
+                                    <div class="course-hover">
+                                        <i class="fa fa-link"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="course-content">
+                                <h3><a href="course-details.html">@course.Name</a></h3>
+                                <p>@( course.Description.Substring(0, 130))</p>
+                                <a class="default-btn" asp-controller="Course" asp-action="CourseDetail" asp-route-id="@course.Id">read more</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     </div>
 </div>
 <!-- Course End -->

@@ -19,15 +19,31 @@ namespace EduHome.Controllers
             _db = db;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int? categoryId,int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
-            ViewBag.Page = page;
+            List<Course> courses = new List<Course>();
 
-            if (ViewBag.PageCount < page || page <= 0)
-                return NotFound();
+            if (categoryId == null)
+            {
+                ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
+                ViewBag.Page = page;
 
-            return View();
+                if (ViewBag.PageCount < page || page <= 0)
+                    return NotFound();
+
+                return View(courses);
+            }
+            else
+            {
+                IQueryable<CategoryCourse> categoryCourses = _db.CategoryCourses.Where(c => c.CategoryId == categoryId)
+                    .Include(x=>x.Course).OrderByDescending(x => x.Course.LastModificationDate);
+                foreach (CategoryCourse ct in categoryCourses)
+                {
+                    courses.Add(ct.Course);
+                }
+                return View(courses);
+            }
+            
         }
 
         #region CourseDetail
@@ -41,27 +57,10 @@ namespace EduHome.Controllers
             if (course == null)
                 return NotFound();
 
-            var courses = await _db.Courses.Where(x => x.IsDeleted == false).ToListAsync();
-            var courseCategory = await _db.CategoryCourses.Include(x => x.Category).ToListAsync();
-            var categories = new List<Category>();
-            foreach (var dbCourse in courses)
+            CourseViewModel courseViewModel = new CourseViewModel
             {
-                foreach (var item in courseCategory)
-                {
-                    if(dbCourse.Id == item.CourseId)
-                    {
-                        //if (categories.Contains(item.Category))
-                        //{
-                        //}
-                        categories.Add(item.Category);
-                    }
-                }
-            }
-
-            var courseViewModel = new CourseViewModel
-            {
-                Course = course,
-                Categories = categories
+                Categories = await _db.Categories.Include(c => c.CategoryCourses).ToListAsync(),
+                Course = course
             };
 
             return View(courseViewModel);

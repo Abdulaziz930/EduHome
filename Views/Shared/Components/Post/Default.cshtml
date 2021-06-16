@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+    List<Blog> blogs = Model;
+}
+
+<div class="single-blog-widget mb-50">
+    <div class="single-blog-banner">
+        <a id="blog"><img src="~/img/blog/blog-img.jpg" alt="blog"></a>
+        <h2>best<br> eductaion<br> theme</h2>
+    </div>
+</div>
+<div class="single-blog-widget mb-50">
+    <h3>latest post</h3>
+    @foreach (var blog in blogs)
+    {
+        <div class="single-post mb-30">
+            <div class="single-post-img">
+                <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@blog.Id">
+                    <img src="~/img/blog/@blog.Image" alt="post">
+                    <div class="blog-hover">
+                        <i class="fa fa-link"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="single-post-content" style="width:100%">
+                <h4 style="text-align:left"><a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@blog.Id">@blog.Title</a></h4>
+                <p>@blog.Author /  @blog.CreationDate.ToString("MMMM dd, yyyy")</p>
+            </div>
+        </div>
+    }
+</div>

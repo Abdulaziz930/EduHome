@@ -39,15 +39,26 @@ namespace EduHome.Areas.AdminPanel.Controllers
         }
 
         #region Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Course course)
+        public async Task<IActionResult> Create(Course course,int[] categoryId)
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != item))
+                    return NotFound();
+            }
 
             if (course.Photo == null)
             {
@@ -71,17 +82,28 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             course.Image = fileName;
 
-            var isExist = await _db.Courses.AnyAsync(x => x.Name == course.Name && x.IsDeleted == false);
-            if (isExist)
-            {
-                ModelState.AddModelError("Name", "There is a course with this name");
-                return View();
-            }
-
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(course);
             }
+
+            if (categoryId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select category.");
+                return View(course);
+            }
+
+            var categoryCourseList = new List<CategoryCourse>();
+            foreach (var item in categoryId)
+            {
+                var categoryCourse = new CategoryCourse
+                {
+                    CategoryId = item,
+                    CourseId = course.Id
+                };
+                categoryCourseList.Add(categoryCourse);
+            }
+            course.CategoryCourses = categoryCourseList;
 
             course.CreationDate = DateTime.Now;
             course.LastModificationDate = DateTime.Now;
@@ -95,13 +117,17 @@ namespace EduHome.Areas.AdminPanel.Controllers
         #endregion
 
         #region Update
+
         public async Task<IActionResult> Update(int? id)
         {
             if (id == null)
                 return NotFound();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var course = await _db.Courses.Include(x => x.CourseDetail)
-                .Where(x => x.CourseDetail.IsDeleted == false)
+                .Where(x => x.CourseDetail.IsDeleted == false).Include(x => x.CategoryCourses)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (course == null)
                 return NotFound();
@@ -111,7 +137,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Course course)
+        public async Task<IActionResult> Update(int? id,Course course,int[] categoryId)
         {
             if (id == null)
                 return NotFound();
@@ -119,8 +145,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id != course.Id)
                 return BadRequest();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var dbCourse = await _db.Courses.Include(x => x.CourseDetail)
-                .Where(x => x.CourseDetail.IsDeleted == false)
+                .Where(x => x.CourseDetail.IsDeleted == false).Include(x => x.CategoryCourses)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (dbCourse == null)
                 return NotFound();
@@ -156,6 +185,15 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "course", course.Photo);
             }
 
+            var categoryCourseList = new List<CategoryCourse>();
+            foreach (var item in categoryId)
+            {
+                var categoryCourse = new CategoryCourse();
+                categoryCourse.CategoryId = item;
+                categoryCourse.CourseId = course.Id;
+                categoryCourseList.Add(categoryCourse);
+            }
+            dbCourse.CategoryCourses = categoryCourseList;
             dbCourse.Image = fileName;
             dbCourse.Name = course.Name;
             dbCourse.Description = course.Description;
@@ -216,7 +254,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id == null)
                 return NotFound();
 
-            var course = await _db.Courses.Include(x => x.CourseDetail)
+            var course = await _db.Courses.Include(x => x.CourseDetail).Include(x => x.CategoryCourses)
                 .Where(x => x.CourseDetail.IsDeleted == false)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (course == null)
