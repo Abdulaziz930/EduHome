@@ -1,4 +1,6 @@
 ﻿using EduHome.DataAccessLayer;
+using EduHome.Models;
+using EduHome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,18 +19,33 @@ namespace EduHome.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int? categoryId,int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
-            ViewBag.Page = page;
+            var events = new List<Event>();
 
-            if (ViewBag.PageCount < page || page <= 0)
-                return NotFound();
+            if(categoryId == null)
+            {
+                ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
+                ViewBag.Page = page;
 
-            var events = await _db.Events.Where(x => x.IsDeleted == false)
-                .OrderByDescending(x => x.LastModificationDate).Skip((page - 1) * 9).Take(9).ToListAsync();
+                if (ViewBag.PageCount < page || page <= 0)
+                    return NotFound();
 
-            return View(events);
+                var dbEvents = await _db.Events.Where(x => x.IsDeleted == false)
+                    .OrderByDescending(x => x.LastModificationDate).Skip((page - 1) * 9).Take(9).ToListAsync();
+
+                return View(dbEvents);
+            }
+            else
+            {
+                var categoryEvents = _db.CategoryEvents.Where(x => x.CategoryId == categoryId)
+                    .Include(x => x.Event).OrderByDescending(x => x.Event.LastModificationDate);
+                foreach (var categoryEvent in categoryEvents)
+                {
+                    events.Add(categoryEvent.Event);
+                }
+                return View(events);
+            }
         }
 
         #region EventDetail
@@ -44,7 +61,13 @@ namespace EduHome.Controllers
             if (@event == null)
                 return NotFound();
 
-            return View(@event);
+            var eventViewModel = new EventViewModel
+            {
+                Categories = await _db.Categories.Include(x => x.CategoryEvents).Where(x => x.IsDeleted == false).ToListAsync(),
+                Event = @event
+            };
+
+            return View(eventViewModel);
         }
 
         #endregion
