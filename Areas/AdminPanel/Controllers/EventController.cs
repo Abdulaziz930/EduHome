@@ -40,15 +40,21 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #region Create
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Event @event)
+        public async Task<IActionResult> Create(Event @event, int[] categoryId)
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             if (@event.Photo == null)
             {
                 ModelState.AddModelError("Photo", "Photo field cannot be empty");
@@ -81,6 +87,24 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            if (categoryId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select category.");
+                return View(@event);
+            }
+
+            var categoryEventList = new List<CategoryEvent>();
+            foreach (var item in categoryId)
+            {
+                var categoryEvent = new CategoryEvent
+                {
+                    CategoryId = item,
+                    EventId = @event.Id
+                };
+                categoryEventList.Add(categoryEvent);
+            }
+            @event.CategoryEvents = categoryEventList;
+
             @event.CreationDate = DateTime.Now;
             @event.LastModificationDate = DateTime.Now;
 
@@ -107,8 +131,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id == null)
                 return NotFound();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var @event = await _db.Events.Include(x => x.EventDetail)
-                .Where(x => x.EventDetail.IsDeleted == false)
+                .Where(x => x.EventDetail.IsDeleted == false).Include(x => x.CategoryEvents)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (@event == null)
                 return NotFound();
@@ -118,7 +145,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Event @event)
+        public async Task<IActionResult> Update(int? id,Event @event, int[] categoryId)
         {
             if (id == null)
                 return NotFound();
@@ -126,8 +153,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id != @event.Id)
                 return BadRequest();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var dbEvent = await _db.Events.Include(x => x.EventDetail)
-                .Where(x => x.EventDetail.IsDeleted == false)
+                .Where(x => x.EventDetail.IsDeleted == false).Include(x => x.CategoryEvents)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (dbEvent == null)
                 return NotFound();
@@ -169,6 +199,15 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", @event.Photo);
             }
 
+            var categoryEventList = new List<CategoryEvent>();
+            foreach (var item in categoryId)
+            {
+                var categoryEvent = new CategoryEvent();
+                categoryEvent.CategoryId = item;
+                categoryEvent.EventId = @event.Id;
+                categoryEventList.Add(categoryEvent);
+            }
+            dbEvent.CategoryEvents = categoryEventList;
             dbEvent.Image = fileName;
             dbEvent.Title = @event.Title;
             dbEvent.Venue = @event.Venue;

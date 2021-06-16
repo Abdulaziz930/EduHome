@@ -41,15 +41,21 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         #region Create
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create(Blog blog,int[] categoryId)
         {
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             if (blog.Photo == null)
             {
                 ModelState.AddModelError("Photo", "Photo field cannot be empty");
@@ -84,6 +90,24 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            if (categoryId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select category.");
+                return View(blog);
+            }
+
+            var categoryBlogList = new List<CategoryBlog>();
+            foreach (var item in categoryId)
+            {
+                var categoryBlog = new CategoryBlog
+                {
+                    CategoryId = item,
+                    BlogId = blog.Id
+                };
+                categoryBlogList.Add(categoryBlog);
+            }
+            blog.CategoryBlogs = categoryBlogList;
+
             blog.CreationDate = DateTime.Now;
             blog.LastModification = DateTime.Now;
 
@@ -102,8 +126,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id == null)
                 return NotFound();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var blog = await _db.Blogs.Include(x => x.BlogDetail)
-                .Where(x => x.BlogDetail.IsDeleted == false)
+                .Where(x => x.BlogDetail.IsDeleted == false).Include(x => x.CategoryBlogs)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (blog == null)
                 return NotFound();
@@ -113,7 +140,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Blog blog)
+        public async Task<IActionResult> Update(int? id,Blog blog, int[] categoryId)
         {
             if (id == null)
                 return NotFound();
@@ -121,8 +148,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (id != blog.Id)
                 return NotFound();
 
+            var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
+            ViewBag.Categories = categories;
+
             var dbBlog = await _db.Blogs.Include(x => x.BlogDetail)
-                .Where(x => x.BlogDetail.IsDeleted == false)
+                .Where(x => x.BlogDetail.IsDeleted == false).Include(x => x.CategoryBlogs)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (dbBlog == null)
                 return NotFound();
@@ -160,6 +190,15 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            var categoryBlogList = new List<CategoryBlog>();
+            foreach (var item in categoryId)
+            {
+                var categoryBlog = new CategoryBlog();
+                categoryBlog.CategoryId = item;
+                categoryBlog.BlogId = blog.Id;
+                categoryBlogList.Add(categoryBlog);
+            }
+            dbBlog.CategoryBlogs = categoryBlogList;
             dbBlog.Image = fileName;
             dbBlog.Title = blog.Title;
             dbBlog.BlogDetail = blog.BlogDetail;
