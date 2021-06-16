@@ -93,7 +93,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (categoryId.Length == 0)
             {
                 ModelState.AddModelError("", "Please select category.");
-                return View(blog);
+                return View();
             }
 
             var categoryBlogList = new List<CategoryBlog>();
@@ -192,6 +192,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
+                return View();
+            }
+
+            if (categoryId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select category.");
                 return View();
             }
 

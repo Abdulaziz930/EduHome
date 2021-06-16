@@ -90,7 +90,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (categoryId.Length == 0)
             {
                 ModelState.AddModelError("", "Please select category.");
-                return View(@event);
+                return View();
             }
 
             var categoryEventList = new List<CategoryEvent>();
@@ -164,7 +164,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(@event);
+                return View();
             }
 
             if (@event.StartTime > @event.EndTime)
@@ -197,6 +197,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
 
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", @event.Photo);
+            }
+
+            if (categoryId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select category.");
+                return View();
             }
 
             var categoryEventList = new List<CategoryEvent>();

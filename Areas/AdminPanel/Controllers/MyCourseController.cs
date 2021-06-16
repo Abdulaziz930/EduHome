@@ -116,13 +116,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "course", course.Photo);
             }
 
-            var isExist = await _db.Courses.AnyAsync(x => x.Name == course.Name && x.Id != course.Id && x.IsDeleted == false);
-            if (isExist)
-            {
-                ModelState.AddModelError("Name", "There is a course with this name");
-                return View();
-            }
-
             myCourses.Image = fileName;
             myCourses.Name = course.Name;
             myCourses.Description = course.Description;

@@ -58,7 +58,7 @@
                         <ul>
                             @foreach (var category in courseViewModel.Categories)
 	                        {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Where(x => x.Course.IsDeleted == false).Count())</a></li>
+                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Count)</a></li>
 	                        }
                         </ul>
                     </div>

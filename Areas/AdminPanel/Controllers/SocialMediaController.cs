@@ -122,6 +122,8 @@ namespace EduHome.Areas.AdminPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id,SocialMedia socialMedia)
+        
+        
         {
             if (id == null)
                 return NotFound();
@@ -144,6 +146,22 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
             {
                 return View();
+            }
+
+            var teachers = await _db.Teachers.Where(x => x.IsDeleted == false).Include(x => x.SocialMedias).ToListAsync();
+            foreach (var item in teachers)
+            {
+                if (item.Id != id)
+                {
+                    foreach (var social in item.SocialMedias)
+                    {
+                        if (social.IsDeleted == false && social.Link == socialMedia.Link && social.Icon == socialMedia.Icon)
+                        {
+                            ModelState.AddModelError("", "is exists");
+                            return View(dbSocialMedia);
+                        }
+                    }
+                }
             }
 
             dbSocialMedia.Link = socialMedia.Link;

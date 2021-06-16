@@ -81,6 +81,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            if (professionId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select event.");
+                return View();
+            }
+
             var teacherProfessionList = new List<TeacherProfession>();
             foreach (var item in professionId)
             {
@@ -173,6 +179,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
 
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "teacher", teacher.Photo);
+            }
+
+            if (professionId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select event.");
+                return View();
             }
 
             var teacherProfessions = new List<TeacherProfession>();

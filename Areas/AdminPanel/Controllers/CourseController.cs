@@ -39,6 +39,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
         }
 
         #region Create
+
         public async Task<IActionResult> Create()
         {
             var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();

@@ -63,7 +63,7 @@ namespace EduHome.Controllers
 
             var eventViewModel = new EventViewModel
             {
-                Categories = await _db.Categories.Include(x => x.CategoryEvents).ThenInclude(x => x.Event).Where(x => x.IsDeleted == false).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryEvents.Where(y => y.Event.IsDeleted == false)).ThenInclude(x => x.Event).Where(x => x.IsDeleted == false).ToListAsync(),
                 Event = @event
             };
 

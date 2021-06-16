@@ -57,13 +57,13 @@ namespace EduHome.Controllers
             if (blog == null)
                 return NotFound();
 
-            var courseViewModel = new BlogViewModel
+            var blogViewModel = new BlogViewModel
             {
-                Categories = await _db.Categories.Include(x => x.CategoryBlogs).ThenInclude(x => x.Blog).Where(x => x.IsDeleted == false).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryBlogs.Where(y => y.Blog.IsDeleted == false)).ThenInclude(x => x.Blog).Where(x => x.IsDeleted == false).ToListAsync(),
                 Blog = blog
             };
 
-            return View(courseViewModel);
+            return View(blogViewModel);
         }
 
         #endregion

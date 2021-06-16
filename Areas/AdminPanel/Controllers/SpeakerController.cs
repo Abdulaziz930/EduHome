@@ -183,7 +183,13 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", speaker.Photo);
             }
-            
+
+            if (eventId.Length == 0)
+            {
+                ModelState.AddModelError("", "Please select event.");
+                return View();
+            }
+
             var eventSpikers = new List<EventSpeaker>();
             foreach (var item in eventId)
             {
