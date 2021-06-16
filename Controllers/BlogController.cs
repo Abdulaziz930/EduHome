@@ -1,4 +1,6 @@
 ﻿using EduHome.DataAccessLayer;
+using EduHome.Models;
+using EduHome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,15 +19,30 @@ namespace EduHome.Controllers
             _db = db;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int? categoryId,int page = 1)
         {
-            ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Blogs.Where(x => x.IsDeleted == false).Count() / 9);
-            ViewBag.Page = page;
+            var blogs = new List<Blog>();
 
-            if (ViewBag.PageCount < page || page <= 0)
-                return NotFound();
+            if (categoryId == null)
+            {
+                ViewBag.PageCount = Decimal.Ceiling((decimal)_db.Courses.Where(x => x.IsDeleted == false).Count() / 9);
+                ViewBag.Page = page;
 
-            return View();
+                if (ViewBag.PageCount < page || page <= 0)
+                    return NotFound();
+
+                return View(blogs);
+            }
+            else
+            {
+                var categoryBlogs = _db.CategoryBlogs.Where(x => x.CategoryId == categoryId)
+                    .Include(x => x.Blog).OrderByDescending(x => x.Blog.LastModification);
+                foreach (var categoryBlog in categoryBlogs)
+                {
+                    blogs.Add(categoryBlog.Blog);
+                }
+                return View(blogs);
+            }
         }
 
         #region BlogDetail
@@ -40,7 +57,13 @@ namespace EduHome.Controllers
             if (blog == null)
                 return NotFound();
 
-            return View(blog);
+            var courseViewModel = new BlogViewModel
+            {
+                Categories = await _db.Categories.Include(x => x.CategoryBlogs).Where(x => x.IsDeleted == false).ToListAsync(),
+                Blog = blog
+            };
+
+            return View(courseViewModel);
         }
 
         #endregion

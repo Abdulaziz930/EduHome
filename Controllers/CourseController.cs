@@ -21,7 +21,7 @@ namespace EduHome.Controllers
 
         public IActionResult Index(int? categoryId,int page = 1)
         {
-            List<Course> courses = new List<Course>();
+            var courses = new List<Course>();
 
             if (categoryId == null)
             {
@@ -35,11 +35,11 @@ namespace EduHome.Controllers
             }
             else
             {
-                IQueryable<CategoryCourse> categoryCourses = _db.CategoryCourses.Where(c => c.CategoryId == categoryId)
+                var categoryCourses = _db.CategoryCourses.Where(x => x.CategoryId == categoryId)
                     .Include(x=>x.Course).OrderByDescending(x => x.Course.LastModificationDate);
-                foreach (CategoryCourse ct in categoryCourses)
+                foreach (var categoryCourse in categoryCourses)
                 {
-                    courses.Add(ct.Course);
+                    courses.Add(categoryCourse.Course);
                 }
                 return View(courses);
             }
@@ -53,13 +53,14 @@ namespace EduHome.Controllers
             if (id == null)
                 return NotFound();
 
-            var course = await _db.Courses.Where(x => x.IsDeleted == false).Include(x => x.CourseDetail).FirstOrDefaultAsync(x => x.Id == id);
+            var course = await _db.Courses.Where(x => x.IsDeleted == false)
+                .Include(x => x.CourseDetail).FirstOrDefaultAsync(x => x.Id == id);
             if (course == null)
                 return NotFound();
 
-            CourseViewModel courseViewModel = new CourseViewModel
+            var courseViewModel = new CourseViewModel
             {
-                Categories = await _db.Categories.Include(c => c.CategoryCourses).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryCourses).Where(x => x.IsDeleted == false).ToListAsync(),
                 Course = course
             };
 
