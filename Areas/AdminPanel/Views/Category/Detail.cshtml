@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Category Detail";
+    Category category = Model;
+}
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Category Detail</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="item d-flex mt-2">
+                        <h4>Name:</h4>
+                        <span class="ml-2">@category.Name</span>
+                    </div>
+                    <div class="item d-flex mt-2">
+                        <h4>Courses:</h4>
+                        @if (category.CategoryCourses.Count == 0)
+                        {
+                            <span>There are no courses</span>
+                        }
+                        else
+                        {
+                            <ul>
+                                @foreach (var categoryCourse in category.CategoryCourses)
+                                {
+                                    @if (categoryCourse.Course.IsDeleted == false)
+                                    {
+                                        <li>@categoryCourse.Course.Name</li>
+                                    }
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="item d-flex mt-2">
+                        <h4>Events:</h4>
+                        @if (category.CategoryEvents.Count == 0)
+                        {
+                            <span>There are no events</span>
+                        }
+                        else
+                        {
+                            <ul>
+                                @foreach (var categoryEvent in category.CategoryEvents)
+                                {
+                                    @if (categoryEvent.Event.IsDeleted == false)
+                                    {
+                                        <li>@categoryEvent.Event.Title</li>
+                                    }
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="item d-flex mt-2">
+                        <h4>Blogs:</h4>
+                        @if (category.CategoryBlogs.Count == 0)
+                        {
+                            <span>There are no blogs</span>
+                        }
+                        else
+                        {
+                            <ul>
+                                @foreach (var categoryBlog in category.CategoryBlogs)
+                                {
+                                    @if (categoryBlog.Blog.IsDeleted == false)
+                                    {
+                                        <li>@categoryBlog.Blog.Title</li>
+                                    }
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <a asp-action="Index" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>
+

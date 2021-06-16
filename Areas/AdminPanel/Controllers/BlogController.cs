@@ -190,6 +190,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var categoryBlogList = new List<CategoryBlog>();
             foreach (var item in categoryId)
             {
