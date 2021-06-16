@@ -21,7 +21,7 @@
                     </div>
                     <div class="reply-area">
                         <h3>LEAVE A REPLY</h3>
-                        <p>@blogViewModel.Blog.BlogDetail.LeaveReply</p>
+                        <p>@Html.Raw(blogViewModel.Blog.BlogDetail.LeaveReply)</p>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                         <ul>
                             @foreach (var category in blogViewModel.Categories)
                             {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryBlogs.Count)</a></li>
+                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryBlogs.Where(x => x.Blog.IsDeleted == false).Count())</a></li>
                             }
                         </ul>
                     </div>

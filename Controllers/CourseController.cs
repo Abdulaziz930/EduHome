@@ -36,7 +36,7 @@ namespace EduHome.Controllers
             else
             {
                 var categoryCourses = _db.CategoryCourses.Where(x => x.CategoryId == categoryId)
-                    .Include(x=>x.Course).OrderByDescending(x => x.Course.LastModificationDate);
+                    .Include(x=>x.Course).Where(x => x.Course.IsDeleted == false).OrderByDescending(x => x.Course.LastModificationDate);
                 foreach (var categoryCourse in categoryCourses)
                 {
                     courses.Add(categoryCourse.Course);
@@ -60,7 +60,7 @@ namespace EduHome.Controllers
 
             var courseViewModel = new CourseViewModel
             {
-                Categories = await _db.Categories.Include(x => x.CategoryCourses).Where(x => x.IsDeleted == false).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryCourses).ThenInclude(x => x.Course).Where(x => x.IsDeleted == false).ToListAsync(),
                 Course = course
             };
 

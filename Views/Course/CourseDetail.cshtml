@@ -16,19 +16,19 @@
                     </div>
                     <div class="course-details-content">
                         <h2>@courseViewModel.Course.Name</h2>
-                        <p>@courseViewModel.Course.Description</p>
+                        <p>@Html.Raw(courseViewModel.Course.Description)</p>
                         <div class="course-details-left">
                             <div class="single-course-left">
                                 <h3>about course</h3>
-                                <p>@courseViewModel.Course.CourseDetail.AboutCourse</p>
+                                <p>@Html.Raw(courseViewModel.Course.CourseDetail.AboutCourse)</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>how to apply</h3>
-                                <p>@courseViewModel.Course.CourseDetail.HowToApply</p>
+                                <p>@Html.Raw(courseViewModel.Course.CourseDetail.HowToApply)</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>certification</h3>
-                                <p>@courseViewModel.Course.CourseDetail.Certification</p>
+                                <p>@Html.Raw(courseViewModel.Course.CourseDetail.Certification)</p>
                             </div>
                         </div>
                         <div class="course-details-right">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="reply-area">
                         <h3>LEAVE A REPLY</h3>
-                        <p>@courseViewModel.Course.CourseDetail.LeaveReply</p>
+                        <p>@Html.Raw(courseViewModel.Course.CourseDetail.LeaveReply)</p>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                         <ul>
                             @foreach (var category in courseViewModel.Categories)
 	                        {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Count)</a></li>
+                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Where(x => x.Course.IsDeleted == false).Count())</a></li>
 	                        }
                         </ul>
                     </div>

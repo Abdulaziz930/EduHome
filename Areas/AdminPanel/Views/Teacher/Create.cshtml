@@ -106,7 +106,14 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-    
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#TeacherDetail_Description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         $(document).ready(function () {
             let spanIds = ["languagePercent", "desingPercent", "developmentPercent"
@@ -128,5 +135,5 @@
                 });
             });
         });
-    </script>    
+    </script>
 }

@@ -29,7 +29,7 @@
                         }
                     </ul>
                     <h4>about me</h4>
-                    <p>@teacher.TeacherDetail.Description</p>
+                    <p>@Html.Raw(teacher.TeacherDetail.Description)</p>
                     <ul>
                         <li><span>degree: </span>@teacher.TeacherDetail.Degree</li>
                         <li><span>experience: </span>@teacher.TeacherDetail.Experience</li>

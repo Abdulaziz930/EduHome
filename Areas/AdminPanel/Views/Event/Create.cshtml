@@ -61,4 +61,17 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#EventDetail_Description'))
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
+            .create(document.querySelector('#EventDetail_LeaveReply'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 }

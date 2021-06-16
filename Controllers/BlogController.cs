@@ -36,7 +36,7 @@ namespace EduHome.Controllers
             else
             {
                 var categoryBlogs = _db.CategoryBlogs.Where(x => x.CategoryId == categoryId)
-                    .Include(x => x.Blog).OrderByDescending(x => x.Blog.LastModification);
+                    .Include(x => x.Blog).Where(x => x.Blog.IsDeleted == false).OrderByDescending(x => x.Blog.LastModification);
                 foreach (var categoryBlog in categoryBlogs)
                 {
                     blogs.Add(categoryBlog.Blog);
@@ -59,7 +59,7 @@ namespace EduHome.Controllers
 
             var courseViewModel = new BlogViewModel
             {
-                Categories = await _db.Categories.Include(x => x.CategoryBlogs).Where(x => x.IsDeleted == false).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryBlogs).ThenInclude(x => x.Blog).Where(x => x.IsDeleted == false).ToListAsync(),
                 Blog = blog
             };
 

@@ -39,7 +39,7 @@ namespace EduHome.Controllers
             else
             {
                 var categoryEvents = _db.CategoryEvents.Where(x => x.CategoryId == categoryId)
-                    .Include(x => x.Event).OrderByDescending(x => x.Event.LastModificationDate);
+                    .Include(x => x.Event).Where(x => x.Event.IsDeleted == false).OrderByDescending(x => x.Event.LastModificationDate);
                 foreach (var categoryEvent in categoryEvents)
                 {
                     events.Add(categoryEvent.Event);
@@ -63,7 +63,7 @@ namespace EduHome.Controllers
 
             var eventViewModel = new EventViewModel
             {
-                Categories = await _db.Categories.Include(x => x.CategoryEvents).Where(x => x.IsDeleted == false).ToListAsync(),
+                Categories = await _db.Categories.Include(x => x.CategoryEvents).ThenInclude(x => x.Event).Where(x => x.IsDeleted == false).ToListAsync(),
                 Event = @event
             };
 
