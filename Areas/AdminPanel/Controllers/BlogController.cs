@@ -51,7 +51,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog,int[] categoryId)
+        public async Task<IActionResult> Create(Blog blog,int?[] categoryId)
         {
             var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
             ViewBag.Categories = categories;
@@ -87,13 +87,19 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(blog);
             }
 
-            if (categoryId.Length == 0)
+            if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
                 return View();
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var categoryBlogList = new List<CategoryBlog>();
@@ -101,7 +107,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 var categoryBlog = new CategoryBlog
                 {
-                    CategoryId = item,
+                    CategoryId = (int)item,
                     BlogId = blog.Id
                 };
                 categoryBlogList.Add(categoryBlog);
@@ -140,8 +146,9 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Blog blog, int[] categoryId)
+        public async Task<IActionResult> Update(int? id,Blog blog, int?[] categoryId)
         {
+
             if (id == null)
                 return NotFound();
 
@@ -192,20 +199,26 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbBlog);
             }
 
-            if (categoryId.Length == 0)
+            if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
-                return View();
+                return View(dbBlog);
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var categoryBlogList = new List<CategoryBlog>();
             foreach (var item in categoryId)
             {
                 var categoryBlog = new CategoryBlog();
-                categoryBlog.CategoryId = item;
+                categoryBlog.CategoryId = (int)item;
                 categoryBlog.BlogId = blog.Id;
                 categoryBlogList.Add(categoryBlog);
             }

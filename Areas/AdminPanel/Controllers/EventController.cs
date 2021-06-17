@@ -50,7 +50,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Event @event, int[] categoryId)
+        public async Task<IActionResult> Create(Event @event, int?[] categoryId)
         {
             var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
             ViewBag.Categories = categories;
@@ -78,7 +78,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(@event);
             }
 
             if(@event.StartTime > @event.EndTime)
@@ -87,10 +87,16 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View();
             }
 
-            if (categoryId.Length == 0)
+            if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
                 return View();
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var categoryEventList = new List<CategoryEvent>();
@@ -98,7 +104,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 var categoryEvent = new CategoryEvent
                 {
-                    CategoryId = item,
+                    CategoryId = (int)item,
                     EventId = @event.Id
                 };
                 categoryEventList.Add(categoryEvent);
@@ -145,7 +151,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Event @event, int[] categoryId)
+        public async Task<IActionResult> Update(int? id,Event @event, int?[] categoryId)
         {
             if (id == null)
                 return NotFound();
@@ -164,7 +170,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbEvent);
             }
 
             if (@event.StartTime > @event.EndTime)
@@ -199,17 +205,23 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", @event.Photo);
             }
 
-            if (categoryId.Length == 0)
+            if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
-                return View();
+                return View(dbEvent);
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var categoryEventList = new List<CategoryEvent>();
             foreach (var item in categoryId)
             {
                 var categoryEvent = new CategoryEvent();
-                categoryEvent.CategoryId = item;
+                categoryEvent.CategoryId = (int)item;
                 categoryEvent.EventId = @event.Id;
                 categoryEventList.Add(categoryEvent);
             }

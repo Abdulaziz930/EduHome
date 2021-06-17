@@ -91,7 +91,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeRole(string id,ChangeRoleViewModel changeRoleViewModel,List<int> coursesId,string role)
+        public async Task<IActionResult> ChangeRole(string id,ChangeRoleViewModel changeRoleViewModel,List<int?> coursesId,string role)
         {
             if (string.IsNullOrEmpty(id))
                 return NotFound();
@@ -117,11 +117,18 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if(role.ToLower() == RoleConstants.CourseModeratorRole.ToLower())
             {
-                if(coursesId.Count == 0)
+                if(coursesId.Count == 0 || coursesId == null)
                 {
-                    ModelState.AddModelError("", "Please select category.");
+                    ModelState.AddModelError("", "Please select course.");
                     return View(dbChangeRoleViewModel);
                 }
+
+                foreach (var item in coursesId)
+                {
+                    if (courses.All(x => x.Id != (int)item))
+                        return BadRequest();
+                }
+
                 foreach (var courseId in coursesId)
                 {
                     var dbCourses = await _db.Courses.Where(x => x.IsDeleted == false && x.Id == courseId)
@@ -281,10 +288,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
 
             var dbUser = await _userManager.FindByIdAsync(id);
 
@@ -295,6 +298,11 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 Username = dbUser.UserName
             };
+
+            if (!ModelState.IsValid)
+            {
+                return View(changePasswordViewModel);
+            }
 
             if (!await _userManager.CheckPasswordAsync(dbUser, passwordViewModel.OldPassword))
             {

@@ -49,7 +49,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(profession);
             }
 
             await _db.AddAsync(profession);
@@ -90,7 +90,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbProfession);
             }
 
             dbProfession.Name = profession.Name;

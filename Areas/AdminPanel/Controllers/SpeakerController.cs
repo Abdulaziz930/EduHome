@@ -50,21 +50,16 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Speaker speaker,int[] eventId)
+        public async Task<IActionResult> Create(Speaker speaker,int?[] eventId)
         {
             var events = await _db.Events.Where(x => x.IsDeleted == false).ToListAsync();
             ViewBag.Events = events;
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(speaker);
             }
 
-            foreach (var item in eventId)
-            {
-                if (events.All(x => x.Id != item))
-                    return NotFound();
-            }
 
             if (speaker.Photo == null)
             {
@@ -87,10 +82,16 @@ namespace EduHome.Areas.AdminPanel.Controllers
             var fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", speaker.Photo);
             speaker.Image = fileName;
 
-            if(eventId.Length == 0)
+            if(eventId.Length == 0 || eventId == null)
             {
                 ModelState.AddModelError("", "Please select event.");
                 return View();
+            }
+
+            foreach (var item in eventId)
+            {
+                if (events.All(x => x.Id != item))
+                    return BadRequest();
             }
 
             var eventSpeakerList = new List<EventSpeaker>();
@@ -98,7 +99,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 var eventSpeaker = new EventSpeaker
                 {
-                    EventId = item,
+                    EventId = (int)item,
                     SpeakerId = speaker.Id
                 };
                 eventSpeakerList.Add(eventSpeaker);
@@ -136,7 +137,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Speaker speaker, int[] eventId)
+        public async Task<IActionResult> Update(int? id,Speaker speaker, int?[] eventId)
         {
             if (id == null)
                 return NotFound();
@@ -155,7 +156,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbSpeaker);
             }
 
             var fileName = dbSpeaker.Image;
@@ -184,17 +185,23 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "event", speaker.Photo);
             }
 
-            if (eventId.Length == 0)
+            if (eventId.Length == 0 || eventId == null)
             {
                 ModelState.AddModelError("", "Please select event.");
-                return View();
+                return View(dbSpeaker);
+            }
+
+            foreach (var item in eventId)
+            {
+                if (events.All(x => x.Id != item))
+                    return NotFound();
             }
 
             var eventSpikers = new List<EventSpeaker>();
             foreach (var item in eventId)
             {
                 var eventSpeaker = new EventSpeaker();
-                eventSpeaker.EventId = item;
+                eventSpeaker.EventId = (int)item;
                 eventSpeaker.SpeakerId = speaker.Id;
                 eventSpikers.Add(eventSpeaker);
             }

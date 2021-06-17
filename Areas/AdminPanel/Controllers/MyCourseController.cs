@@ -87,7 +87,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(myCourses);
             }
 
             var fileName = myCourses.Image;

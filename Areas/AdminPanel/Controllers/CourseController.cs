@@ -50,7 +50,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Course course,int[] categoryId)
+        public async Task<IActionResult> Create(Course course,int?[] categoryId)
         {
             var categories = await _db.Categories.Where(x => x.IsDeleted == false).ToListAsync();
             ViewBag.Categories = categories;
@@ -88,10 +88,16 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View(course);
             }
 
-            if (categoryId.Length == 0)
+            if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
                 return View(course);
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var categoryCourseList = new List<CategoryCourse>();
@@ -99,7 +105,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 var categoryCourse = new CategoryCourse
                 {
-                    CategoryId = item,
+                    CategoryId = (int)item,
                     CourseId = course.Id
                 };
                 categoryCourseList.Add(categoryCourse);
@@ -138,7 +144,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Course course,int[] categoryId)
+        public async Task<IActionResult> Update(int? id,Course course,int?[] categoryId)
         {
             if (id == null)
                 return NotFound();
@@ -157,7 +163,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbCourse);
             }
 
             var fileName = dbCourse.Image;
@@ -186,11 +192,23 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "course", course.Photo);
             }
 
+            if (categoryId.Length == 0 || categoryId == null)
+            {
+                ModelState.AddModelError("", "Please select category.");
+                return View(dbCourse);
+            }
+
+            foreach (var item in categoryId)
+            {
+                if (categories.All(x => x.Id != (int)item))
+                    return BadRequest();
+            }
+
             var categoryCourseList = new List<CategoryCourse>();
             foreach (var item in categoryId)
             {
                 var categoryCourse = new CategoryCourse();
-                categoryCourse.CategoryId = item;
+                categoryCourse.CategoryId = (int)item;
                 categoryCourse.CourseId = course.Id;
                 categoryCourseList.Add(categoryCourse);
             }

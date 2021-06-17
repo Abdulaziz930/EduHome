@@ -56,7 +56,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(category);
             }
 
             await _db.Categories.AddAsync(category);
@@ -104,7 +104,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbCategory);
             }
 
             dbCategory.Name = category.Name;

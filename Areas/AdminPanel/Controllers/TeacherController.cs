@@ -50,7 +50,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Teacher teacher,int[] professionId)
+        public async Task<IActionResult> Create(Teacher teacher,int?[] professionId)
         {
             var professions = await _db.Professions.Where(x => x.IsDeleted == false).ToListAsync();
             ViewBag.Professions = professions;
@@ -78,13 +78,19 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(teacher);
             }
 
-            if (professionId.Length == 0)
+            if (professionId.Length == 0 || professionId == null)
             {
                 ModelState.AddModelError("", "Please select event.");
                 return View();
+            }
+
+            foreach (var item in professionId)
+            {
+                if (professions.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var teacherProfessionList = new List<TeacherProfession>();
@@ -92,7 +98,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
             {
                 var teacherProfession = new TeacherProfession
                 {
-                    ProfessionId = item,
+                    ProfessionId = (int)item,
                     TeacherId = teacher.Id
                 };
                 teacherProfessionList.Add(teacherProfession);
@@ -132,7 +138,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id,Teacher teacher,int[] professionId)
+        public async Task<IActionResult> Update(int? id,Teacher teacher,int?[] professionId)
         {
             if (id == null)
                 return NotFound();
@@ -152,7 +158,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(dbTeacher);
             }
 
             var fileName = dbTeacher.Image;
@@ -181,17 +187,23 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "teacher", teacher.Photo);
             }
 
-            if (professionId.Length == 0)
+            if (professionId.Length == 0 || professionId == null)
             {
                 ModelState.AddModelError("", "Please select event.");
-                return View();
+                return View(dbTeacher);
+            }
+
+            foreach (var item in professionId)
+            {
+                if (professions.All(x => x.Id != (int)item))
+                    return BadRequest();
             }
 
             var teacherProfessions = new List<TeacherProfession>();
             foreach (var item in professionId)
             {
                 var teacherProfession = new TeacherProfession();
-                teacherProfession.ProfessionId = item;
+                teacherProfession.ProfessionId = (int)item;
                 teacherProfession.TeacherId = teacher.Id;
                 teacherProfessions.Add(teacherProfession);
             }

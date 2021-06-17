@@ -55,7 +55,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SocialMedia socialMedia,int teacherId)
+        public async Task<IActionResult> Create(SocialMedia socialMedia,int? teacherId)
         {
             var teachers = await _db.Teachers.Where(x => x.IsDeleted == false).Include(x => x.SocialMedias).ToListAsync();
             ViewBag.Teachers = teachers;
@@ -68,7 +68,19 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
+                return View(socialMedia);
+            }
+
+            if(teacherId == null)
+            {
+                ModelState.AddModelError("", "Please select teacher.");
                 return View();
+            }
+
+            var result = teachers.All(x => x.Id != (int)teacherId);
+            if (result)
+            {
+                return BadRequest();
             }
 
             foreach (var teacher in teachers)
@@ -86,7 +98,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
             }
 
-            socialMedia.TeacherId = teacherId;
+            socialMedia.TeacherId = (int)teacherId;
             socialMedia.IsDeleted = false;
 
             await _db.SocialMedias.AddAsync(socialMedia);
@@ -122,8 +134,6 @@ namespace EduHome.Areas.AdminPanel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id,SocialMedia socialMedia)
-        
-        
         {
             if (id == null)
                 return NotFound();
@@ -145,7 +155,7 @@ namespace EduHome.Areas.AdminPanel.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(socialMedia);
             }
 
             var teachers = await _db.Teachers.Where(x => x.IsDeleted == false).Include(x => x.SocialMedias).ToListAsync();

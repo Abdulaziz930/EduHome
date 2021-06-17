@@ -57,7 +57,6 @@ namespace EduHome.Controllers
                 .Include(x => x.CourseDetail).FirstOrDefaultAsync(x => x.Id == id);
             if (course == null)
                 return NotFound();
-            //var a = await _db.Categories.Include(x => x.CategoryCourses.Where(y => y.Course.IsDeleted == false)).ThenInclude(x => x.Course).Where(x => x.IsDeleted == false).ToListAsync();
             var courseViewModel = new CourseViewModel
             {
                 Categories = await _db.Categories.Include(x => x.CategoryCourses.Where(y => y.Course.IsDeleted == false)).ThenInclude(x => x.Course).Where(x => x.IsDeleted == false).ToListAsync(),
