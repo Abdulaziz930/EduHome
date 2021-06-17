@@ -88,6 +88,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View(course);
             }
 
+            if(course.CourseDetail.Starts < DateTime.Now)
+            {
+                ModelState.AddModelError("CourseDetail.Starts", "The course cannot start earlier than the current time");
+                return View(course);
+            }
+
             if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
