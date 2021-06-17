@@ -90,6 +90,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 return View(blog);
             }
 
+            if(blog.CommentCount < 0)
+            {
+                ModelState.AddModelError("CommentCount", "Comment count cannot be negative.");
+                return View();
+            }
+
             if (categoryId.Length == 0 || categoryId == null)
             {
                 ModelState.AddModelError("", "Please select category.");
@@ -200,6 +206,12 @@ namespace EduHome.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
             {
                 return View(dbBlog);
+            }
+
+            if (blog.CommentCount < 0)
+            {
+                ModelState.AddModelError("CommentCount", "Comment count cannot be negative.");
+                return View();
             }
 
             if (categoryId.Length == 0 || categoryId == null)

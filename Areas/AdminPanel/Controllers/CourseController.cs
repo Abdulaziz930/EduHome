@@ -118,6 +118,18 @@ namespace EduHome.Areas.AdminPanel.Controllers
             }
             course.CategoryCourses = categoryCourseList;
 
+            if(course.CourseDetail.StundetCount < 0)
+            {
+                ModelState.AddModelError("CourseDetail.StundetCount", "Student count can not be negative.");
+                return View(course);
+            }
+
+            if(course.CourseDetail.Price < 0)
+            {
+                ModelState.AddModelError("CourseDetail.Price", "Price can not be negative.");
+                return View(course);
+            }
+
             course.CreationDate = DateTime.Now;
             course.LastModificationDate = DateTime.Now;
 
@@ -196,6 +208,18 @@ namespace EduHome.Areas.AdminPanel.Controllers
                 }
 
                 fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, "course", course.Photo);
+            }
+
+            if (course.CourseDetail.StundetCount < 0)
+            {
+                ModelState.AddModelError("CourseDetail.StundetCount", "Student count can not be negative.");
+                return View(course);
+            }
+
+            if (course.CourseDetail.Price < 0)
+            {
+                ModelState.AddModelError("CourseDetail.Price", "Price can not be negative.");
+                return View(course);
             }
 
             if (categoryId.Length == 0 || categoryId == null)
