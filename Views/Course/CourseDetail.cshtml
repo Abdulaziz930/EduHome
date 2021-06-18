@@ -58,7 +58,10 @@
                         <ul>
                             @foreach (var category in courseViewModel.Categories)
 	                        {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Count)</a></li>
+                                @if(category.CategoryCourses.Count != 0)
+                                {
+                                    <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryCourses.Count)</a></li>
+                                }
 	                        }
                         </ul>
                     </div>

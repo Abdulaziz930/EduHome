@@ -53,7 +53,10 @@
                         <ul>
                             @foreach (var category in eventViewModel.Categories)
                             {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryEvents.Count)</a></li>
+                                @if(category.CategoryEvents.Count != 0)
+                                {
+                                    <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryEvents.Count)</a></li>
+                                }
                             }
                         </ul>
                     </div>

@@ -26,6 +26,11 @@ namespace EduHome.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             return View();
         }
 
@@ -33,6 +38,11 @@ namespace EduHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(loginViewModel);
@@ -68,6 +78,11 @@ namespace EduHome.Controllers
 
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             return View();
         }
 
@@ -75,6 +90,11 @@ namespace EduHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(registerViewModel);
@@ -117,6 +137,11 @@ namespace EduHome.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");

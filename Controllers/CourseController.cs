@@ -37,6 +37,8 @@ namespace EduHome.Controllers
             {
                 var categoryCourses = _db.CategoryCourses.Where(x => x.CategoryId == categoryId)
                     .Include(x=>x.Course).Where(x => x.Course.IsDeleted == false).OrderByDescending(x => x.Course.LastModificationDate);
+                if (categoryCourses.Count() == 0)
+                    return NotFound();
                 foreach (var categoryCourse in categoryCourses)
                 {
                     courses.Add(categoryCourse.Course);

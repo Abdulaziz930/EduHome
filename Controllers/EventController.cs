@@ -40,6 +40,8 @@ namespace EduHome.Controllers
             {
                 var categoryEvents = _db.CategoryEvents.Where(x => x.CategoryId == categoryId)
                     .Include(x => x.Event).Where(x => x.Event.IsDeleted == false).OrderByDescending(x => x.Event.LastModificationDate);
+                if (categoryEvents.Count() == 0)
+                    return NotFound();
                 foreach (var categoryEvent in categoryEvents)
                 {
                     events.Add(categoryEvent.Event);

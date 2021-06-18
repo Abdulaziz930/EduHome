@@ -37,6 +37,8 @@ namespace EduHome.Controllers
             {
                 var categoryBlogs = _db.CategoryBlogs.Where(x => x.CategoryId == categoryId)
                     .Include(x => x.Blog).Where(x => x.Blog.IsDeleted == false).OrderByDescending(x => x.Blog.LastModification);
+                if (categoryBlogs.Count() == 0)
+                    return NotFound();
                 foreach (var categoryBlog in categoryBlogs)
                 {
                     blogs.Add(categoryBlog.Blog);

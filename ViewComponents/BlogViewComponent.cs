@@ -21,7 +21,7 @@ namespace EduHome.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(InvokeRequest invokeRequest)
         {
             var blogs = await _db.Blogs.Where(x => x.IsDeleted == false)
-                .OrderByDescending(x => x.LastModification).Skip((invokeRequest.SkipCount - 1) * invokeRequest.Count)
+                .OrderByDescending(x => x.LastModification).Skip((invokeRequest.SkipCount - 1) * (invokeRequest.Count))
                 .Take(invokeRequest.Count).ToListAsync();
 
             return View(blogs);

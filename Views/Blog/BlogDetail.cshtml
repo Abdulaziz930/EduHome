@@ -32,7 +32,10 @@
                         <ul>
                             @foreach (var category in blogViewModel.Categories)
                             {
-                                <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryBlogs.Count)</a></li>
+                                @if(category.CategoryBlogs.Count != 0)
+                                {
+                                    <li><a asp-action="Index" asp-route-categoryId="@category.Id">@category.Name (@category.CategoryBlogs.Count)</a></li>
+                                }
                             }
                         </ul>
                     </div>
