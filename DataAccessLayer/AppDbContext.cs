@@ -69,5 +69,7 @@ namespace EduHome.DataAccessLayer
         public DbSet<CategoryCourse> CategoryCourses { get; set; }
 
         public DbSet<CategoryEvent> CategoryEvents { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

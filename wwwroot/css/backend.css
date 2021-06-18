@@ -1,14 +1,16 @@
 ﻿#global-result {
     overflow-y: scroll;
-    max-height:200px;
+    max-height: 200px;
 }
+
 #global-result-list {
     z-index: 2;
     background-color: #fff;
 }
-#global-result-list li a,h4{
+
+#global-result-list li a, h4 {
     color: #000;
-    text-align:center;
+    text-align: center;
     display: inherit;
 }
 
@@ -19,4 +21,38 @@
 #course-result-list {
     z-index: 2;
     background-color: #fff;
+}
+
+.thumbnail {
+    padding: 0px;
+}
+
+.panel {
+    position: relative;
+}
+
+.panel > .panel-heading:after, .panel > .panel-heading:before {
+    position: absolute;
+    top: 11px;
+    left: -16px;
+    right: 100%;
+    width: 0;
+    height: 0;
+    display: block;
+    content: " ";
+    border-color: transparent;
+    border-style: solid solid outset;
+    pointer-events: none;
+}
+
+.panel > .panel-heading:after {
+    border-width: 7px;
+    border-right-color: #f7f7f7;
+    margin-top: 1px;
+    margin-left: 2px;
+}
+
+.panel > .panel-heading:before {
+    border-right-color: #ddd;
+    border-width: 8px;
 }

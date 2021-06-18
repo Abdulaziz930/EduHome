@@ -32,6 +32,8 @@ namespace EduHome.Models
 
         public ICollection<CategoryBlog> CategoryBlogs { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         [NotMapped]
         public IFormFile Photo { get; set; }
     }

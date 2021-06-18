@@ -1,0 +1,16 @@
+﻿@{
+    Comment comment = Model;
+}
+
+<div class="col-12">
+    <div class="panel panel-default" style="width:50%;">
+        <div class="panel-heading">
+            <strong>@comment.User.UserName</strong> <span class="text-muted">commented @comment.CreationDate.ToString("dd,MMM HH:mm")</span>
+        </div>
+        <div class="panel-body">
+            <h4 style="text-align:left">@comment.Subject</h4>
+            <p>@comment.Message</p>
+        </div>
+    </div>
+</div>
+

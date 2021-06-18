@@ -21,6 +21,8 @@ namespace EduHome.Models
 
         public List<Course> Courses { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         [NotMapped]
         public IFormFile Photo { get; set; }
     }

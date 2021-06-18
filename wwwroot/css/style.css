@@ -2136,7 +2136,7 @@ textarea {
     height: auto;
     margin-bottom: 40px;
 }
-.reply-area form a.reply-btn{
+.reply-area form button.reply-btn{
     background: #2C2B5E;
     color: #fff;
     text-transform: uppercase;
@@ -2145,7 +2145,7 @@ textarea {
     font-weight: 700;
     display: inline-block;
 }
-.reply-area form a.reply-btn:hover{
+.reply-area form button.reply-btn:hover{
     background: #EC1C23;
     -webkit-transition: all 0.5s ease 0s;
     -o-transition: all 0.5s ease 0s;

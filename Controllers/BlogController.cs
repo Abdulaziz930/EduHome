@@ -1,6 +1,7 @@
 ﻿using EduHome.DataAccessLayer;
 using EduHome.Models;
 using EduHome.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,13 +14,15 @@ namespace EduHome.Controllers
     public class BlogController : Controller
     {
         private readonly AppDbContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public BlogController(AppDbContext db)
+        public BlogController(AppDbContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
-        public IActionResult Index(int? categoryId,int page = 1)
+        public IActionResult Index(int? categoryId, int page = 1)
         {
             var blogs = new List<Blog>();
 
@@ -55,7 +58,8 @@ namespace EduHome.Controllers
                 return NotFound();
 
             var blog = await _db.Blogs.Where(x => x.IsDeleted == false)
-                .Include(x => x.BlogDetail).FirstOrDefaultAsync(x => x.Id == id);
+                .Include(x => x.BlogDetail).Include(x => x.Comments.Where(x => x.BlogId == id))
+                .ThenInclude(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (blog == null)
                 return NotFound();
 
@@ -86,6 +90,32 @@ namespace EduHome.Controllers
         }
 
         #endregion
+
+        public async Task<IActionResult> Comment(int? blogId, string subject, string message)
+        {
+            if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(message))
+            {
+                return NotFound();
+            }
+
+            if (blogId == null)
+                return NotFound();
+
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            Comment comment = new Comment();
+            comment.Subject = subject;
+            comment.Message = message;
+            comment.CreationDate = DateTime.Now;
+            comment.BlogId = (int)blogId;
+            comment.UserId = user.Id;
+
+            await _db.Comments.AddAsync(comment);
+            await _db.SaveChangesAsync();
+
+            return PartialView("_CommentPartial", comment);
+        }
 
     }
 }
